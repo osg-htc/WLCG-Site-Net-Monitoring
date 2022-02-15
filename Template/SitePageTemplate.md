@@ -1,6 +1,6 @@
 # SITE Network Information
 ---
-This page describes SITE network information for WLCG use.  Our goal is to understand each site's network and track the sites network use (a minimum of IN/OUT total traffic). We would like to get information in three areas: network description, network monitoring and diagrams.
+This page describes SITE network information for WLCG use.  Our goal is to understand each site's network and track the sites network use (a minimum of IN/OUT total traffic). We would like to get information in three areas: network description, network monitoring and diagrams.  Once this page is created and updated for a specific site, please add it's URL as WLCG CRIC NetSite Info URL (see list of NetSites at https://wlcg-cric.cern.ch/core/netsite/list/)
 
 LAST UPDATE: 15-Feb-2022 08:00 Eastern
 
@@ -30,9 +30,13 @@ TO-DO:  Provide explicit examples of monitoring URLs that are machine consumable
 
 ### Network Monitoring Link
 For R&E traffic, including LHCONE, please see https://grafana.site.org/d/D2dvElGGz/site-net-monitoring. 
-For commodity traffic, please see https://grafana.site.org/d/K2dvEl9Gz/site-net-mon-comm 
 
-** Network Diagrams
+For commodity traffic, please see https://grafana.site.org/d/K2dvEl9Gz/site-net-mon-comm. 
+
+Note, the links identified need to be added to CRIC.   For the top level monitoring that provides at least IN/OUT for the site, please update CRIC's NetSite Monitoring URL link (see https://wlcg-cric.cern.ch/core/netsite/list/ and pick your site).   If you have separate monitoring for specific networks WLCG CRIC also includes a Monitoring URL for each set of NetworkRoutes.  Please update this information in CRIC if relevant.
+
+## Network Diagrams
+---
 Please provide a link to access your most recent network diagrams.  
 
 TO-DO:  Should we create a location in gitlab that can host site network diagrams?   The idea would be that many sites may require that site network diagrams be behind some kind of authorization and will not publish diagrams for the general public to access.
