@@ -1,19 +1,33 @@
 # SITE Network Information
 ---
-This page describes SITE network information for WLCG use.  Our goal is to understand each site's network and track the sites network use (a minimum of IN/OUT total traffic). We would like to get information in three areas: network description, network monitoring and diagrams.  Once this page is created and updated for a specific site, please add it's URL as WLCG CRIC NetSite Info URL (see list of NetSites at https://wlcg-cric.cern.ch/core/netsite/list/)
+This page describes `**SITE**` network information for WLCG use.  
 
-LAST UPDATE: 15-Feb-2022 08:00 Eastern
+_Our goal is to understand each site's network and track the sites network use (a minimum of IN/OUT total traffic). We would like to get information in three areas: network description, network monitoring and diagrams.  Once this page is created and updated for a specific site, please add it's URL as WLCG CRIC NetSite Info URL (see list of NetSites at https://wlcg-cric.cern.ch/core/netsite/list/)_
 
-## Network Description [Mandatory; can be brief]
+LAST UPDATE (when file is changed, please update): 15-Feb-2022 08:00 Eastern
+
+## Network Overview [Mandatory; can be brief]
 In this section of the page, please provide a human readable descrption of your network.  The goal is to give a context for your site's network configuration, including relevant information about the network equipment, peering arrangements, topology, capacity and connectivity.  
 
-### Network Overview [Optional]
+### Network Description [Optional]
 **Example:** The network for SITE consists of two Cisco deep buffer router/switches interconnected by 2x100G links, connected to a distribution layer of Dell switches and finally a set of top of rack switches that connect to compute and storage systems.  The uplink connects via 2x40G to our regional connector.  Typical compute nodes connect at 2x1G but some have 10G or 2x10G, while storage nodes are typically connected at 2x25G but some are connected at 100G.
 
 ### Peering Description [Optional]
-How does your site peer with other networks?  Who provides your default internet connectivity and at what bandwidth?  If you are connected to LHCONE, who do you peer with and at what bandwidth?   If you are connected to LHCOPN, how to you connect and peer with CERN and at what bandwidth?   Do you have a peering for research and education networks for non-LHCONE sites?  If so, who do you peer with and at what bandwidth? Finally does you site provide commodity (non research and education) connectivity (www.google.com, www.github.com, etc)?  If so, who do you peer with and what is the bandwidth available for this type of traffic?
+Please describe how your site connects by responding to the following questions:
 
-TO-DO: Convert this to a table to fill out ?
+How does your site connect for commodity (non research and education) connectivity (www.google.com, www.github.com, etc)?  
+    If so, who do you peer with and what is the bandwidth available for this type of traffic?
+    Are there any firewall or security devices in-line with this traffic?  If so, please describe.
+
+If you are connected to LHCONE, who/where do you peer with and at what bandwidth?
+    Are there any firewall or security devices in-line with this traffic?  If so, please describe.
+
+If you are connected to LHCOPN, how to you connect and peer with CERN and at what bandwidth?   
+    Are there any firewall or security devices in-line with this traffic?  If so, please describe.
+
+Do you have a peering for research and education networks for non-LHCONE sites?  
+    If so, who/where do you peer with and at what bandwidth? 
+    Are there any firewall or security devices in-line with this traffic?  If so, please describe.
 
 ### Network Equipment Details [Optional]
 Our site has a mix of Cisco and Dell switches and routers.   We have X Cisco YYY-ZZZZ systems running NXOS X.XXX and Y Dell YYYYY switches running OS10 X.XX
