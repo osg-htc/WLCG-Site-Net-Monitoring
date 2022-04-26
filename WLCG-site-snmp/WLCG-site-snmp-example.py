@@ -30,7 +30,7 @@ import json
 # ---------------------------------------------------------------------------
 # ================= CUSTOMIZE THIS SECTION ==================================
 # ---------------------------------------------------------------------------
-# Location of the output JSON file
+# Location of the output JSON (need to add suitable URL to CRIC for access)
 JSONOUTFILE = "/var/www/html/aglt2-netmon.json"
 
 # Sleep interval between loop executions (in seconds)
@@ -90,8 +90,8 @@ while True:
             InEndTime[KEY] = datetime.now(timezone.utc).isoformat()
             if InStartTime.get(KEY) is not None:
                 # ------------------------ Calculate rate and swap variables
-                dTime = 1000
-                Rate = (ifInCntrEnd[KEY] - ifInCntrStart[KEY]) / dTime
+                time_diff = InEndTime[KEY]-InStartTime[KEY]
+                Rate = (ifInCntrEnd[KEY] - ifInCntrStart[KEY]) / time_diff.total_seconds()
                 InBytesPerSec = InBytesPerSec + Rate
                 InStartTime[KEY] = InEndTime[KEY]
                 ifInCntrStart[KEY] = ifInCntrEnd[KEY]
@@ -100,8 +100,8 @@ while True:
             LastTime_us = OutEndTime[KEY]
             # ------------------------ Calculate rate and swap variables
             if OutStartTime.get(KEY) is not None:
-                dTime = 10000
-                Rate = (ifOutCntrEnd[KEY] - ifOutCntrStart[KEY]) / dTime
+                time_diff = InEndTime[KEY]-InStartTime[KEY]
+                Rate = (ifOutCntrEnd[KEY] - ifOutCntrStart[KEY]) / time_diff.total_seconds()
                 OutBytesPerSec = OutBytesPerSec + Rate
                 OutStartTime[KEY] = OutEndTime[KEY]
                 ifOutCntrStart[KEY] = ifOutCntrEnd[KEY]
