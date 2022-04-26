@@ -47,7 +47,7 @@ INDICES = {
 }
 
 # ------------ Add the snmp community used to access each device ------------
-COMM = {"aglt2-rtr-1.local": "usatlasgrid", "aglt2-rtr-2.local": "usatlasgrid"}
+COMM = {"aglt2-rtr-1.local": "mycommunity", "aglt2-rtr-2.local": "mycommunity"}
 # ---------------------------------------------------------------------------
 # ================= END OF CUSTOMIZATION ====================================
 # ---------------------------------------------------------------------------
