@@ -70,8 +70,8 @@ The example output lists all the indices and interfaces:
 ...
 IF-MIB::ifDescr.436233216 = STRING: Ethernet1/51
 IF-MIB::ifDescr.436233728 = STRING: Ethernet1/52
-                ^^^^^^^^^^                     ^^^^^^^^^^^^
-                Index                          Interface description
+                ^^^^^^^^^           ^^^^^^^^^^^^
+                Index               Interface description
 ```
 
 You should find the appropriate index values for all devices hosting border interfaces.  Below is the example from AGLT2:
@@ -117,7 +117,7 @@ If things look OK we can set it up as a systemd service
 ## Implementing as a systemd service
 
 You need to edit the systemd service file we created by copying the example:  site-traffic-monitor.service
-The only change needed it to replace `<INSTALL_LOC>` with the actual install location.
+The only change needed is edit that file and replace `<INSTALL_LOC>` with the actual install location.
 
 Then you can copy this file (as 'root') to /etc/systemd/system/site-traffic-monitor.service
 ```
