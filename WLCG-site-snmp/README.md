@@ -1,10 +1,14 @@
 # Site Traffic Monitoring Service README
+
 This directory contains the **Site Traffic Monitoring Service** example and is intended to be deployed at WLCG sites to gather simple network statistics from the site’s network border device(s).  It contains a python3 script that can be configured to read multiple interfaces via SNMP, add the IN and OUT traffic (In Bytes/sec) up and save the output in a standard formatted JSON file for use by WLCG Monitoring.
+
 ## Installation Considerations
+
 This software should be installed on a system that has:
 - Network access to the site’s border devices via SNMP
 - A web server (alternatively the output could be copied to a web server via a suitable script)
 - Python3, net-snmp and git installed
+
 Pick a location on that system to deploy to which we will call `INSTALL_LOC`, e.g., 
 ```
 export INSTALL_LOC=~/my-site-monitoring
@@ -32,7 +36,9 @@ You will need to edit WLCG-site-snmp.py to customize for your use-case.   The va
 | JSONOUTFILE | The path for the output file | /var/www/html/aglt2-netmon.json |
 | INDICES | A python dictionary holding the devices and interfaces to monitor | See below |
 | COMM | A python dictionary holding device snmp community strings | See below |
+
 ## Configuring
+
 To configure your installation, you will need to identify the network interfaces that represent your site’s border.   There may be more than one interface and more than one device hosting border interfaces.   You will likely need to work with your network team to ensure you correctly identify the appropriate interface(s) and get readonly access via SNMP. 
 The next step is to confirm that snmp is working for accessing your devices.  Once your have the SNMP community to use, set it as an environment variable:
 ```
@@ -45,7 +51,6 @@ snmpwalk -v2c -c ${SNMPCOMM} <device> .sysDescr
 This should return a value:
 ```
 [root@sysprov02 ~]# snmpwalk -v2c -c ${SNMPCOMM} aglt2-rtr-1.local .sysDescr
-
 SNMPv2-MIB::sysDescr.0 = STRING: Cisco NX-OS(tm) nxos.9.3.5.bin, Software (nxos), Version 9.3(5), RELEASE SOFTWARE Copyright (c) 2002-2020 by Cisco Systems, Inc. Compiled 7/20/2020 20:00:00
 ```
 Please check each device that hosts border interfaces to ensure snmp access works.
@@ -89,7 +94,7 @@ Feel free to adjust any of the variables as desired.   Once you have them config
   -------  traffic monitor directory /root/site-network-information/WLCG-site-snmp/
   -------  traffic JSON output /var/www/html/aglt2-netmon.json
 ```
-Note that the code is set to run forever.  You need to wait for at least `INTERVAL` and then verify a new output file `JSONOUTFILE` was created.
+Note that the code is set to run forever.  You need to wait for at least `INTERVAL`, CTRL-C and then verify a new output file `JSONOUTFILE` was created.
 
 For AGLT2 it looks like:
 ```
@@ -128,14 +133,18 @@ While this service runs it should create a new `JSONOUTFILE` every `INTERVAL` se
 If the location of `JSONOUTFILE` is NOT accessible via a web URL, you will need to have some mechanism to move it to a web accessible location.
 
 ## Register in CRIC
+
 The last thing to do is register the URL for the `JSONOUTFILE` in CRIC.
 Each network site in CRIC is shown at [CRIC Network Site](https://wlcg-cric.cern.ch/core/netsite/list/).  Find the appropriate network site and update the monitoring URL with the correct location allowing access to your `JSONOUTFILE`
 
 For example
-```Monitoring URL
+```
+Monitoring URL
 Monitoring URL that shows real-time network traffic into and out-of this site
-https://sysprov02.aglt2.org/aglt2-netmon.json```
+https://sysprov02.aglt2.org/aglt2-netmon.json
+```
 
+The WLCG Monitoring Task Force plans to use these URLs to grab the JSON monitoring for all participating sites.
 
 
 
