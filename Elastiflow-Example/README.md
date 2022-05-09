@@ -1,6 +1,6 @@
 # Reading CRIC Network Data
 
-This directory holds some example python3 code which queries WLCG's CRIC rcsite information and extracts some network metadata for use in Elastiflow (see https://docs.elastiflow.com/).    ** This code can be used as an example of how to query CRIC for network data.**
+This directory holds some example python3 code which queries WLCG's CRIC rcsite information and extracts some network metadata for use in Elastiflow (see https://docs.elastiflow.com/).    **This code can be used as an example of how to query CRIC for network data**.
 
 Note there are two examples of the 'request', one which uses verify in the SSL connection and requires you have the CERN-CA-certs rpm installed and one which sets verify=False.
 
