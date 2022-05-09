@@ -2,9 +2,9 @@
 This directory contains the **Site Traffic Monitoring Service** example and is intended to be deployed at WLCG sites to gather simple network statistics from the site’s network border device(s).  It contains a python3 script that can be configured to read multiple interfaces via SNMP, add the IN and OUT traffic (In Bytes/sec) up and save the output in a standard formatted JSON file for use by WLCG Monitoring.
 ## Installation Considerations
 This software should be installed on a system that has:
-Network access to the site’s border devices via SNMP
-A web server (alternatively the output could be copied to a web server via a suitable script)
-Python3, net-snmp and git installed
+- Network access to the site’s border devices via SNMP
+- A web server (alternatively the output could be copied to a web server via a suitable script)
+- Python3, net-snmp and git installed
 Pick a location on that system to deploy to which we will call `INSTALL_LOC`, e.g., 
 ```
 export INSTALL_LOC=~/my-site-monitoring
@@ -62,11 +62,81 @@ snmpwalk -v2c -c ${SNMPCOMM} aglt2-rtr-1.local  IF-MIB::ifDescr
 The example output lists all the indices and interfaces:
 
 ```
+...
 IF-MIB::ifDescr.436233216 = STRING: Ethernet1/51
 IF-MIB::ifDescr.436233728 = STRING: Ethernet1/52
-                         ^^^^^^^^^^                     ^^^^^^^^^^^^
-                         Index                             Interface description
+                ^^^^^^^^^^                     ^^^^^^^^^^^^
+                Index                          Interface description
 ```
 
+You should find the appropriate index values for all devices hosting border interfaces.  Below is the example from AGLT2:
+```
+INDICES = {
+    "aglt2-rtr-1.local": {
+        "Ethernet1/51": 436233216,
+        "Ethernet1/52": 436233728,
+    },
+    "aglt2-rtr-2.local": {
+        "Ethernet1/51": 436233216,
+        "Ethernet1/52": 436233728
+    },
+}
+```
+Feel free to adjust any of the variables as desired.   Once you have them configured, you can run a test:
+```
+# python3 WLCG-site-snmp.py
+ WLCG site traffic monitor started at 2022-05-09T14:41:45.955477+00:00
+  -------  traffic monitor directory /root/site-network-information/WLCG-site-snmp/
+  -------  traffic JSON output /var/www/html/aglt2-netmon.json
+```
+Note that the code is set to run forever.  You need to wait for at least `INTERVAL` and then verify a new output file `JSONOUTFILE` was created.
+
+For AGLT2 it looks like:
+```
+{
+    "Description": "Network statistics for AGLT2",
+    "UpdatedLast": "2022-05-09T14:47:23.057942+00:00",
+    "InBytesPerSec": 1275982208.1281207,
+    "OutBytesPerSec": 1526111205.30333,
+    "UpdateInterval": "60 seconds", 
+    "MonitoredInterfaces": [
+        "aglt2-rtr-1.local_Ethernet1/51",
+        "aglt2-rtr-1.local_Ethernet1/52",
+        "aglt2-rtr-2.local_Ethernet1/51",
+        "aglt2-rtr-2.local_Ethernet1/52"
+        ]
+}
+```
+If things look OK we can set it up as a systemd service
+
 ## Implementing as a systemd service
+
+You need to edit the systemd service file we created by copying the example:  site-traffic-monitor.service
+The only change needed it to replace `<INSTALL_LOC>` with the actual install location.
+
+Then you can copy this file (as 'root') to /etc/systemd/system/site-traffic-monitor.service
+```
+sudo cp ${INSTALL_LOC}/site-traffic-monitor.service /etc/systemd/system/site-traffic-monitor.service'
+```
+You then need to reload systemd, enable the new service and start it
+```
+sudo systemctl daemon-reload
+sudo systemctl enable site-traffic-monitor.service
+sudo systemctl start site-traffic-monitor.service
+```
+While this service runs it should create a new `JSONOUTFILE` every `INTERVAL` seconds.   
+If the location of `JSONOUTFILE` is NOT accessible via a web URL, you will need to have some mechanism to move it to a web accessible location.
+
+## Register in CRIC
+The last thing to do is register the URL for the `JSONOUTFILE` in CRIC.
+Each network site in CRIC is shown at [CRIC Network Site](https://wlcg-cric.cern.ch/core/netsite/list/).  Find the appropriate network site and update the monitoring URL with the correct location allowing access to your `JSONOUTFILE`
+
+For example
+```Monitoring URL
+Monitoring URL that shows real-time network traffic into and out-of this site
+https://sysprov02.aglt2.org/aglt2-netmon.json```
+
+
+
+
 
