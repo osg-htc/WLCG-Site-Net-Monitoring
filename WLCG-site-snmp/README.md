@@ -150,7 +150,7 @@ For example
 ```
 Monitoring URL
 Monitoring URL that shows real-time network traffic into and out-of this site
-https://sysprov02.aglt2.org/aglt2-netmon.json
+https://head01.aglt2.org/aglt2-netmon.json
 ```
 
 The WLCG Monitoring Task Force plans to use these URLs to grab the JSON monitoring for all participating sites.
