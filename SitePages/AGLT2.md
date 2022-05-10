@@ -59,7 +59,7 @@ At the University of Michigan we have Cisco NXOS 9.3(5) and Dell OS10 10.5.1
 
 ## Network Monitoring
 ---
-The UM AGLT2 site has implemented the site traffic monitor.  Results are available at https://sysprov02.aglt2.org/aglt2-netmon.json 
+The UM AGLT2 site has implemented the site traffic monitor.  Results are available at https://head01.aglt2.org/aglt2-netmon.json 
 
 Work on MSU should happen by May 12, 2022 and we can update CRIC then.
 
