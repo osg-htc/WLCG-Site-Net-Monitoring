@@ -5,9 +5,9 @@ This page describes `**SITE**` network information for WLCG use.  # Replace with
 The sections below are listed as either Mandatory or Optional.  There is descriptive text that should be replaced once the template is copied
 to become a site specific document.  Feel free to remove unused or non-relevant sections or text.
 
-_Our goal is to understand each site's network and track the sites network use (a minimum of IN/OUT total traffic). We would like to get information in three areas: network description, network monitoring and diagrams.  Once this page is created and updated for a specific site, please add it's URL as WLCG CRIC NetSite Info URL (see list of NetSites at https://wlcg-cric.cern.ch/core/netsite/list/)_
+*Our goal is to understand each site's network and track the sites network use (a minimum of IN/OUT total traffic). We would like to get information in three areas: network description, network monitoring and diagrams.  Once this page is created and updated for a specific site, please add it's URL as WLCG CRIC NetSite Info URL (see list of NetSites at https://wlcg-cric.cern.ch/core/netsite/list/)*
 
-LAST UPDATE (when file is changed, please update): 10-May-2022 08:45 Eastern
+LAST UPDATE (when file is changed, please update): 10-May-2022 09:05 Eastern
 
 _NOTE: this is the template file.  Please see filled out examples in the SitePages directory of this project._
 
@@ -44,7 +44,7 @@ We have provided example code (in python) that can be turned into a `systemd` se
 Please read and deploy the site traffic monitor described in the WLCG-site-snmp directory in this project or provide your own equivalent.
 
 The format of the JSON file should look something like this:
-
+```
 {
 Description: "Network statistics for AGLT2",
 UpdatedLast: "2022-05-09T18:04:43.395714+00:00",
@@ -59,7 +59,7 @@ MonitoredInterfaces: [
 "aglt2-rtr-2.local_Ethernet1/52"
 ]
 }
-
+```
 This file should be updated at some reasonable interval (once per minute or similar).
 
 It is important to have this network monitoring information from your site's **border:** the location where all traffic has to pass to get into or out of your site.
