@@ -20,33 +20,35 @@ Please describe how your site connects by responding to the following questions:
 **How does your site connect for commodity (non research and education) connectivity (www.google.com, www.github.com, etc)?**  
     AGLT2 uses Merit Networks to provide connectivity to the commodity network for both MSU and UM.  
 
-    **If so, who do you peer with and what is the bandwidth available for this type of traffic?**
-        The MSU site shares its commodity connection with the rest of campus (100Gbps?)
-        The UM site has a dedicated 10Gbps directly to Merit in Ann Arbor
+**If so, who do you peer with and what is the bandwidth available for this type of traffic?**
+    The MSU site shares its commodity connection with the rest of campus (100Gbps?)
+    The UM site has a dedicated 10Gbps directly to Merit in Ann Arbor
 
-    **Are there any firewall or security devices in-line with this traffic?  If so, please describe.**
-        Neither site has a firewall or security device for commodity.
+**Are there any firewall or security devices in-line with this traffic?  If so, please describe.**
+    Neither site has a firewall or security device for commodity.
 
 **If you are connected to LHCONE, who/where do you peer with and at what bandwidth?**
-    AGLT2 connects to LHCONE via ESnet in Chicago at 100Gpbs (two locations? 600W and 710 NLSD).  Each site has its connection and peering to ESnet.
+    AGLT2 connects to LHCONE via ESnet in Chicago at 100Gpbs (two locations? 600W and 710 NLSD).  
+    Each site has its connection and peering to ESnet.
 
-    **Are there any firewall or security devices in-line with this traffic?  If so, please describe.**
-        No firewalls or security devices for LHCONE
+**Are there any firewall or security devices in-line with this traffic?  If so, please describe.**
+    No firewalls or security devices for LHCONE
 
 **If you are connected to LHCOPN, how to you connect and peer with CERN and at what bandwidth?**   
     No AGLT2 is a Tier-2 and has no LHCOPN connection.
 
-    **Are there any firewall or security devices in-line with this traffic?  If so, please describe.**
-        Not applicable.
+**Are there any firewall or security devices in-line with this traffic?  If so, please describe.**
+    Not applicable.
 
 **Do you have a peering for research and education networks for non-LHCONE sites?**
-    Currently AGLT2 sees R&E connections via Merit or possible ESnet.  We are working toward peering with Internet2 for these non-LHCONE R&E sites.
+    Currently AGLT2 sees R&E connections via Merit or possible ESnet.  
+    We are working toward peering with Internet2 for these non-LHCONE R&E sites.
 
-    **If so, who/where do you peer with and at what bandwidth?** 
-        Not yet, but hope to have 100Gpbs via Internet2
+**If so, who/where do you peer with and at what bandwidth?** 
+    Not yet, but hope to have 100Gpbs via Internet2
     
-    **Are there any firewall or security devices in-line with this traffic?  If so, please describe.**
-        No firewalls or security devices planned.
+**Are there any firewall or security devices in-line with this traffic?  If so, please describe.**
+    No firewalls or security devices planned.
 
 ### Network Equipment Details
 AGLT2 runs a mix of Juniper, Cisco and Dell switches and routers.  
