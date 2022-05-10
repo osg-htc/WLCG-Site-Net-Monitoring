@@ -2,16 +2,17 @@
 ---
 This page describes AGLT2 network information for WLCG use.  
 
-LAST UPDATE: 28-Mar-2022 08:00 Eastern
+LAST UPDATE: 10-May-2022 09:19 Eastern
 
 ## Network Overview [Mandatory; can be brief]
 We have two physical sites that make up AGLT2, one at Michigan State University and one at University of Michigan. Michigan State University has a shared 100Gbps path-diverse connection to two MSU owned routers in Chicago (600 West and 710 N Lakeshore drive).   The University of Michigan site also has a shared 100Gbps path to OmniPoP (710 N Lakeshore drive) in Chicago.  Both sites are interconnected via a 100Gbps research triangle between Michigan State, University of Michigan and Wayne State University.    
 
 ### Network Description [Optional]
-The Michigan State site is hosted at the MSU data center and served by the MSU Research Network on its DMZ.   The routing and switching equipment is all from Juniper.  There are two core campus and two core data center routers.   The two spine routers (QFX5120-32C) for AGLT2 connect to the two core datacenter routers with 100Gbps links (each spine has a 100Gbps link to each core router). NOTE that MSU is using EVPN/VXLAN to each data switch. Every MSU rack has two Juniper 48 port 10G/25G data switches (QFX5120-48Y) plus one management switch (EX2300-48T), which is connected to both data switches.  Every node has a bonded link providing both public and private VLAN access (1G, 10G or 25G links by node type).  The management switch is used for iDRAC and provisioning purposes.  A typical storage node is connected at 2x10G, 4x10G or 2x25G and worker nodes are connected at 2x1G, 2x10G or the newest at 2x25G. 
+The Michigan State site is hosted at the MSU data center and served by the MSU Research Network on its DMZ.   The routing and switching equipment is all from Juniper.  There are two core campus and two core data center routers.   The two spine routers (QFX5120-32C) for AGLT2 connect to the two core datacenter routers with 100Gbps links (each spine has a 100Gbps link to each core router). NOTE that MSU is using EVPN/VXLAN to each data switch. Every MSU rack has two Juniper 48 port 10G/25G data switches (QFX5120-48Y) plus one management switch (EX2300-48T), which is connected to both data switches.  Every node has a bonded link providing both public and private VLAN access (1G, 10G or 25G links by node type).  The management switch is used for iDRAC and provisioning purposes.  A typical storage node is connected at 2x10G, 4x10G or 2x25G and worker nodes are connected at 2x1G, 2x10G or the newest at 2x25G.   The MSU site also redundantly connects to the state-wide 100Gbps research network and on to LHCONE and the rest of the research and education networks via a path diverse 100Gbps infrastructure to Chicaco/ESnet/Internet2.  Commodity network access is via Merit Networks using MSU's campus connection to Merit, with backup via AGLT2 at UM's Merit connection.
 
-The University of Michigan site is hosted in the College of Language, Sciences and Arts (LS&A) data center with its network connections outside of the University firewall.  The routing and switching equipment is from Dell and Cisco with two routers inside the data center (Cisco N3K-C36180YC-R). There is typically one data switch in each rack (Dell S5232F-ON) and one management switch (S3048-ON).   
-**Example:** The network for SITE consists of two Cisco deep buffer router/switches interconnected by 2x100G links, connected to a distribution layer of Dell switches and finally a set of top of rack switches that connect to compute and storage systems.  The uplink connects via 2x40G to our regional connector.  Typical compute nodes connect at 2x1G but some have 10G or 2x10G, while storage nodes are typically connected at 2x25G but some are connected at 100G.
+The University of Michigan site is hosted in the College of Language, Sciences and Arts (LS&A) data center with its network connections outside of the University firewall.  The routing and switching equipment is from Dell and Cisco with two routers inside the data center (Cisco N3K-C36180YC-R). There is typically one data switch in each rack (Dell S5232F-ON) and one management switch (S3048-ON).  Typical compute nodes connect at 2x1G but some have 10G or 2x10G, while storage nodes are typically connected at 2x25G but some are connected at 100G.  The UM site reaches the wide area network and the MSU site via a state-wide 100Gbps resilient research network.   The UM access to this network is via two deep buffer Cisco switches, located at two different campuses.   Each Cisco router at AGLT2 in LSA connects to both of the deep buffer Ciscos.  From these deep buffer Ciscos, UM reaches LHCONE and the rest of the research and education networks via a 2x40Gbps to our 100Gbps path to Chicago/ESnet/Internet2. Commodity network access is via Merit Networks using a 10 Gbps peering with Merit at UM, with backup via AGLT2 at MSU's Merit connection.
+
+Both UM and MSU connect to each other via the state wide 100Gbps research network.   
 
 ### Peering Description [Optional]
 Please describe how your site connects by responding to the following questions:
@@ -50,23 +51,14 @@ At the University of Michigan we have Cisco NXOS 9.3(5) and Dell OS10 10.5.1
 
 ## Network Monitoring [Mandatory]
 ---
-In this section please provide a brief overview of your site network traffic monitoring along with an appropriate URL that is publically accessible and provides, at a minimum, your sites IN/OUT bandwidth.   **Example:** Our site is monitoring via Grafana which tracks the IN/OUT bandwidth of all our site's Research and Education traffic on two 40 interfaces (which include LHCONE traffic).   Additionally Grafana monitors another 10G interface which provides our sites commodity (non-R&E) traffic.    
-
-It is important to have this network monitoring at your site's **border:** the location where all traffic has to pass to get into or out of your site.
-
-**Note** we prefer monitoring links that are machine consumable.  Our goal is to be able to automate collection of all of our major sites IN/OUT traffic in near real time.    
-
-TO-DO:  Provide explicit examples of monitoring URLs that are machine consumable.  Investigate Prometheus, CheckMK, RRDtool, Cacti, Grafana, others?
+The UM AGLT2 site has implemented the site traffic monitor.  Results are available at https://sysprov02.aglt2.org/aglt2-netmon.json 
 
 ### Network Monitoring Link [Mandatory]
-For R&E traffic, including LHCONE, please see https://grafana.site.org/d/D2dvElGGz/site-net-monitoring. 
 
-For commodity traffic, please see https://grafana.site.org/d/K2dvEl9Gz/site-net-mon-comm. 
+CRIC has been updated for UM AGLT2.  See https://wlcg-cric.cern.ch/core/netsite/detail/US-AGLT2%20University%20of%20Michigan/ 
 
-Note, the links identified need to be added to CRIC.   For the top level monitoring that provides at least IN/OUT for the site, please update CRIC's NetSite Monitoring URL link (see https://wlcg-cric.cern.ch/core/netsite/list/ and pick your site).   If you have separate monitoring for specific networks WLCG CRIC also includes a Monitoring URL for each set of NetworkRoutes.  Please update this information in CRIC if relevant.
+Work on MSU should happen by May 12, 2022 and we can update CRIC then.
 
 ## Network Diagrams [Optional]
 ---
-Please provide a link to access your most recent network diagrams.  
-
-TO-DO:  Should we create a location in gitlab that can host site network diagrams?   The idea would be that many sites may require that site network diagrams be behind some kind of authorization and will not publish diagrams for the general public to access.
+We are working on gathering suitable diagrams.
