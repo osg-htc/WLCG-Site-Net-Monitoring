@@ -12,6 +12,13 @@ This software should be installed on a system that has:
 Pick a location on that system to deploy to which we will call `INSTALL_LOC`, e.g., 
 ```
 export INSTALL_LOC=~/my-site-monitoring
+mkdir -p ${INSTALL_LOC}
+```
+You should also make sure you have installed any dependencies if needed:
+```
+pip install easysnmp
+yum install net-snmp 
+yum install git
 ```
 
 ## Installing 
