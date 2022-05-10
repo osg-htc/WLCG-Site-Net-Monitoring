@@ -14,11 +14,13 @@ Pick a location on that system to deploy to which we will call `INSTALL_LOC`, e.
 export INSTALL_LOC=~/my-site-monitoring
 mkdir -p ${INSTALL_LOC}
 ```
+## Install Pre-Requisites
+
 You should also make sure you have installed any dependencies if needed:
+
 ```
-pip install easysnmp
-yum install net-snmp 
-yum install git
+yum install net-snmp git net-snmp-devel python3-devel gcc
+pip3 install easysnmp
 ```
 
 ## Installing 
