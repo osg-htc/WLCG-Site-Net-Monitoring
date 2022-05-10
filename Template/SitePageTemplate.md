@@ -20,19 +20,19 @@ _NOTE: this is the template file.  Please see filled out examples in the SitePag
 ### Peering Description [Optional]
 *Please describe how your site connects by responding to the following questions.*  
 
-*How does your site connect for commodity (non research and education) connectivity (www.google.com, www.github.com, etc)?*
-    If so, who do you peer with and what is the bandwidth available for this type of traffic?
-    Are there any firewall or security devices in-line with this traffic?  If so, please describe.
+**How does your site connect for commodity (non research and education) connectivity (www.google.com, www.github.com, etc)?**
+- **If so, who do you peer with and what is the bandwidth available for this type of traffic?**
+- **Are there any firewall or security devices in-line with this traffic?  If so, please describe.**
 
-*If you are connected to LHCONE, who/where do you peer with and at what bandwidth?*
-    Are there any firewall or security devices in-line with this traffic?  If so, please describe.
+**If you are connected to LHCONE, who/where do you peer with and at what bandwidth?**
+- **Are there any firewall or security devices in-line with this traffic?  If so, please describe.**
 
-*If you are connected to LHCOPN, how to you connect and peer with CERN and at what bandwidth?*   
-    Are there any firewall or security devices in-line with this traffic?  If so, please describe.
+**If you are connected to LHCOPN, how to you connect and peer with CERN and at what bandwidth?**   
+- **Are there any firewall or security devices in-line with this traffic?  If so, please describe.**
 
-*Do you have a peering for research and education networks for non-LHCONE sites?*  
-    If so, who/where do you peer with and at what bandwidth? 
-    Are there any firewall or security devices in-line with this traffic?  If so, please describe.
+**Do you have a peering for research and education networks for non-LHCONE sites?**  
+- **If so, who/where do you peer with and at what bandwidth?** 
+- **Are there any firewall or security devices in-line with this traffic?  If so, please describe.**
 
 ### Network Equipment Details [Optional]
 Our site has a mix of Cisco and Dell switches and routers.   We have X Cisco YYY-ZZZZ systems running NXOS X.XXX and Y Dell YYYYY switches running OS10 X.XX
