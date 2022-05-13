@@ -6,6 +6,14 @@ Structure: we have created two directories, Templates and SitePages, that host, 
 
 Regarding the site network information pages, the goal is that sites will "own" their pages once they create them. Sites should plan to regularly provide updates, especially when significant changes are made.
 
-We need to discuss if gitlab is the appropriate location to host "site" network pages that we link to from CRIC.   A proposal is to use the complete site network template as the CRIC NetSite **Info URL**  (e.g., for AGLT2 as an example see https://wlcg-cric.cern.ch/core/netsite/detail/US-AGLT2%20Michigan%20State%20University/ ).   Sites also need to determine the best **Monitoring URL**.   Each NetSite (see https://wlcg-cric.cern.ch/core/netsite/list/) has a Monitoring URL that should be used to point to network monitoring that shows IN/OUT traffic for **that** NetSite.  We provide a working example sites can deploy in the WLCG-site-snmp directory.  
+We need to discuss if gitlab is the appropriate location to host "site" network pages that we link to from CRIC.   A proposal is to use the completed site network template as the CRIC NetSite **Info URL**  (e.g., for AGLT2 as an example see https://wlcg-cric.cern.ch/core/netsite/detail/US-AGLT2%20Michigan%20State%20University/ ).   For now, sites can create their <SITE>.md file and convert it to HTML via `pandoc`.   
+
+```
+yum install pandoc
+pandoc <SITE>.md -f markdown -t html -s -o /path/<SITE>.html
+```
+The site should then copy the HTML file to a web server and register the URL in WLCG CRIC.
+
+Sites also need to determine the best **Monitoring URL**.   Each NetSite (see https://wlcg-cric.cern.ch/core/netsite/list/) has a Monitoring URL that should be used to point to network monitoring that shows IN/OUT traffic for **that** NetSite.  We provide a working example sites can deploy in the WLCG-site-snmp directory.  
 
 In addition, each NetworkRoute (see https://wlcg-cric.cern.ch/core/networkroute/list/), composed of one or more network subnets *also* provides an opportunity to have a Monitoring URL.  This should be used to provide monitoring specifically for the identified network routes, if it exists.
