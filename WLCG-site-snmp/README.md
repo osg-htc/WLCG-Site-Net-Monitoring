@@ -1,6 +1,6 @@
 # Site Traffic Monitoring Service README
 
-This directory contains the **Site Traffic Monitoring Service** example and is intended to be deployed at WLCG sites to gather simple network statistics from the site’s network border device(s).  It contains a python3 script that can be configured to read multiple interfaces via SNMP, add the IN and OUT traffic (In Bytes/sec) up and save the output in a standard formatted JSON file for use by WLCG Monitoring.
+This directory contains the **Site Traffic Monitoring Service** example and is intended to be deployed at WLCG sites to gather simple network statistics from the site’s network border device(s).  It contains a python3 script that can be configured to read multiple interfaces via SNMP, add the IN and OUT traffic (In Bytes/sec) up and save the output in a standard formatted JSON file for use by WLCG Monitoring.  We desire relatively fine-grained monitoring, if possible, and **should have an update interval of 60 seconds**, unless there is a technical reason not to. 
 
 ## Installation Considerations
 
@@ -138,7 +138,7 @@ sudo systemctl daemon-reload
 sudo systemctl enable site-traffic-monitor.service
 sudo systemctl start site-traffic-monitor.service
 ```
-While this service runs it should create a new `JSONOUTFILE` every `INTERVAL` seconds.   
+While this service runs it should create a new `JSONOUTFILE` every `INTERVAL` seconds. NOTE: set INTERVAL at 60 seconds unless technical issues preclude this.  
 If the location of `JSONOUTFILE` is NOT accessible via a web URL, you will need to have some mechanism to move it to a web accessible location.
 
 ## Register in CRIC
