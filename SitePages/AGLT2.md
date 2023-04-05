@@ -2,7 +2,7 @@
 ---
 This page describes AGLT2 network information for WLCG use.  
 
-LAST UPDATE: 10-May-2022 09:23 Eastern
+LAST UPDATE: 05-April-2022 15:54 Eastern
 
 ## Network Overview
 We have two physical sites that make up AGLT2, one at Michigan State University(MSU) and one at University of Michigan(UM). Michigan State University has a shared 100Gbps path-diverse connection to two MSU owned routers in Chicago (600 West and 710 N Lakeshore drive).   The University of Michigan site also has a shared 100Gbps path to OmniPoP (710 N Lakeshore drive) in Chicago.  Both sites are interconnected via a 100Gbps research triangle between Michigan State, University of Michigan and Wayne State University.    
@@ -21,7 +21,7 @@ Please describe how your site connects by responding to the following questions:
     AGLT2 uses Merit Networks to provide connectivity to the commodity network for both MSU and UM.  
 
 - **If so, who do you peer with and what is the bandwidth available for this type of traffic?**
-    The MSU site shares its commodity connection with the rest of campus (100Gbps?)
+    The MSU site shares its commodity connection with the rest of campus (shared 100Gbps)
     The UM site has a dedicated 10Gbps directly to Merit in Ann Arbor
 
 - **Are there any firewall or security devices in-line with this traffic?  If so, please describe.**
@@ -41,7 +41,7 @@ Please describe how your site connects by responding to the following questions:
     Not applicable.
 
 **Do you have a peering for research and education networks for non-LHCONE sites?**
-    Currently AGLT2 sees R&E connections via Merit or possible ESnet.  
+    Currently AGLT2 sees R&E connections via Merit or ESnet.  
     We are working toward peering with Internet2 for these non-LHCONE R&E sites.
 
 - **If so, who/where do you peer with and at what bandwidth?** 
@@ -61,12 +61,12 @@ At the University of Michigan we have Cisco NXOS 9.3(5) and Dell OS10 10.5.1
 ---
 The UM AGLT2 site has implemented the site traffic monitor.  Results are available at https://head01.aglt2.org/aglt2-netmon.json 
 
-Work on MSU should happen by May 12, 2022 and we can update CRIC then.
+The MSU AGLT2 site has implemented the site traffic monitor.  Results are available at https://www.aglt2.org/aglt2-msu-netmon.json 
 
 ### Network Monitoring Link into CRIC
 
-CRIC has been updated for UM AGLT2.  See https://wlcg-cric.cern.ch/core/netsite/detail/US-AGLT2%20University%20of%20Michigan/ 
+CRIC has been updated for UM AGLT2.  See https://wlcg-cric.cern.ch/core/netsite/detail/US-AGLT2%20University%20of%20Michigan/ and https://wlcg-cric.cern.ch/core/netsite/detail/US-AGLT2%20Michigan%20State%20University/
 
 ## Network Diagrams
 ---
-We are working on gathering suitable diagrams.
+We are working on gathering suitable diagrams and plan to share them in Gitlab under SitePages/Diagrams.
