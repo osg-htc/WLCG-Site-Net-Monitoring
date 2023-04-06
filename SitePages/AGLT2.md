@@ -1,5 +1,7 @@
-# SITE Network Information
+
 ---
+
+# AGLT2 Network Information
 This page describes AGLT2 network information for WLCG use.  
 
 LAST UPDATE: 05-April-2022 15:54 Eastern
@@ -58,7 +60,7 @@ At Michigan State the current JunOS 20.2R3.9 on the spines and 20.2R2-S3 on the 
 At the University of Michigan we have Cisco NXOS 9.3(5) and Dell OS10 10.5.1
 
 ## Network Monitoring
----
+
 The UM AGLT2 site has implemented the site traffic monitor.  Results are available at https://head01.aglt2.org/aglt2-netmon.json 
 
 The MSU AGLT2 site has implemented the site traffic monitor.  Results are available at https://www.aglt2.org/aglt2-msu-netmon.json 
@@ -68,5 +70,5 @@ The MSU AGLT2 site has implemented the site traffic monitor.  Results are availa
 CRIC has been updated for UM AGLT2.  See https://wlcg-cric.cern.ch/core/netsite/detail/US-AGLT2%20University%20of%20Michigan/ and https://wlcg-cric.cern.ch/core/netsite/detail/US-AGLT2%20Michigan%20State%20University/
 
 ## Network Diagrams
----
+
 We are working on gathering suitable diagrams and plan to share them in Gitlab under SitePages/Diagrams.
