@@ -6,11 +6,11 @@ Structure: we have created two directories, Templates and SitePages, that host, 
 
 Regarding the site network information pages, the goal is that sites will "own" their pages once they create them. Sites should plan to regularly provide updates, especially when significant changes are made.
 
-THe plan is to use the completed site network template as the CRIC NetSite **Info URL**  (e.g., for AGLT2 as an example see https://wlcg-cric.cern.ch/core/netsite/detail/US-AGLT2%20Michigan%20State%20University/ ).   Sites should clone the example SitePageTemplate.md file, creating a new entry in SitePages named <SITE>.md.  Then they can then edit the md file to provide the information requested.  To allow the file to be accessible in CRIC, the file will need to be converted to HTML, which can be done via `pandoc`.   
+The plan is to use the completed site network template as the CRIC NetSite **Info URL**  (e.g., for AGLT2 as an example see https://wlcg-cric.cern.ch/core/netsite/detail/US-AGLT2%20Michigan%20State%20University/ ).   Sites should clone the example SitePageTemplate.md file, creating a new entry in SitePages named <SITE>.md.  Then they can then edit the md file to provide the information requested.  To allow the file to be accessible in CRIC, the file will need to be converted to HTML, which can be done via `pandoc`.   
 
 ```
 yum install pandoc
-pandoc <SITE>.md -f markdown -t html -s -o /path/<SITE>.html
+pandoc <SITE>.md -f markdown -t html5 -S -s -o /path/<SITE>.html
 ```
 The site should then copy the HTML file to a web server and register the URL in WLCG CRIC.
 
