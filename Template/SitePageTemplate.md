@@ -1,5 +1,7 @@
-# SITE Network Information
+
 ---
+
+# SITE Network Information
 This page describes `**SITE**` network information for WLCG use.  # Replace with your site name or suitable introduction line
 
 The sections below are listed as either Mandatory or Optional.  There is descriptive text that should be replaced once the template is copied
@@ -38,7 +40,7 @@ _NOTE: this is the template file.  Please see filled out examples in the SitePag
 Our site has a mix of Cisco and Dell switches and routers.   We have X Cisco YYY-ZZZZ systems running NXOS X.XXX and Y Dell YYYYY switches running OS10 X.XX
 
 ## Network Monitoring [Mandatory]
----
+
 Sites will need to create a web reachable JSON file that tracks the IN and OUT traffice (In Bytes / second) for their site.
 We have provided example code (in python) that can be turned into a `systemd` service which creates the neccessary file. 
 Please read and deploy the site traffic monitor described in the WLCG-site-snmp directory in this project or provide your own equivalent.
@@ -71,6 +73,6 @@ It is important to have this network monitoring information from your site's **b
 For the top level monitoring that provides at least IN/OUT for the site, please update CRIC's NetSite Monitoring URL link (see https://wlcg-cric.cern.ch/core/netsite/list/ and pick your site).   If you have separate monitoring for specific networks WLCG CRIC also includes a Monitoring URL containg the above JSON formatted file for each set of NetworkRoutes.  Please update this information in CRIC if relevant.
 
 ## Network Diagrams [Optional]
----
+
 Please provide a link or links to access your most recent network diagrams.  We plan to host these in sub-directories named as SitePages/Diagrams/<SITE>
 In this part of the template you can provide descriptions and links to the diagrams.
