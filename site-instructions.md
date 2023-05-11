@@ -29,4 +29,12 @@ The second component for site network information is enabling tracking of the to
   - Third step is publish the statistics in the right JSON format every 60 seconds at an accessible URL for CERN MONIT.    
   - Last step is to register the JSON statistics URL in WLCG CRIC for the NetSite in the Monitoring URL
 
+Sites should verify that the MONIT dashboard starts showing their data within about 24 hours.  See https://monit-opensearch.cern.ch/dashboards/goto/f0607fb8528ce6b7c9a336aef74be40b?security_tenant=global 
+
 ## Additional information
+
+There is additional information on the project GitLab web pages (https://gitlab.cern.ch/-/ide/project/wlcg-doma/site-network-information) as well as previous presentations on this topic:
+  - WLCG Operations presentation https://docs.google.com/presentation/d/1sB4xPJPLoLbNnfV0mfwfXmHXzX8lZ8VtC4TSqDXWUMw/edit?usp=sharing 
+  - CHEP 2023 Poster https://docs.google.com/presentation/d/1yzD3Gm6Ph8lAGf3c0WupL3m4L96zT61mASx5dVpBt-Q/edit?usp=sharing
+
+Questions can be directed to the WLCG Monitoring Task Force (CERN egroup WLCGMon-TF).
