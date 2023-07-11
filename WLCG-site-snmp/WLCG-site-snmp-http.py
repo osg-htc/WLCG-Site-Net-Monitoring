@@ -19,27 +19,23 @@ import os
 import logging, sys
 import argparse
 import subprocess
-import csv
 from http.server import HTTPServer, BaseHTTPRequestHandler
+import ssl
 
 arg_parser = argparse.ArgumentParser()
 
-arg_parser.add_argument('--snmp-config',
-                        dest='snmp_config_file',
-                        default='site-snmp-config.json',
+arg_parser.add_argument('--site-config',
+                        dest='config_file',
+                        default='site-config.json',
                         help='Site snmp config file name. Default config_file.')
 arg_parser.add_argument('--install_location',
                         dest='install_loc',
                         default=os.environ['PWD'],
                         help='Install Location. Default: PWD')
-arg_parser.add_argument('--output-file',
-                        dest='ooutput_file',
-                        default='site-output.json',
-                        help='Site output file name. Default site-output.json.')
-arg_parser.add_argument('--debug',
-                        default=False,
-                        action='store_true',
-                        help='Add debug printing')
+arg_parser.add_argument('--debug_level',
+                        dest='debug_level',
+                        default='WARN',
+                        help='Debug level INFO,DEBUG')
 
 args, unknown = arg_parser.parse_known_args()
 
@@ -58,7 +54,7 @@ args, unknown = arg_parser.parse_known_args()
 #                      Index               Interface description
 
 # Set up logging and specify level as logging.<LEVEL> with <LEVEL>=DEBUG,INFO,WARN,ERROR...
-logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
+logging.basicConfig(stream=sys.stderr, level=args.debug_level)
 
                         
 # ---------------------------------------------------------------------------
@@ -72,7 +68,7 @@ logging.info(MESSAGE)
 
 # Define the set of switches and ports that represent the site "border"
 #   You will need to find the correct SNMP indices to use.  See info above
-site_snmp_config=json.load(open("{}/{}".format(INSTALL_LOC,args.snmp_config_file)))
+site_config=json.load(open("{}/{}".format(INSTALL_LOC,args.config_file)))
 
 # ------------ Define the needed 64-bit OIDs for In/Out Octets --------------
 ifHCInOctets = ".1.3.6.1.2.1.31.1.1.1.6"
@@ -104,9 +100,9 @@ print(MESSAGE)
 
 def snmp_get_data(INDICES,COMM):
     MESSAGE="INDICES:"+json.dumps(INDICES, indent=4)
-    logging.info(MESSAGE)
+    logging.debug(MESSAGE)
     MESSAGE="COMM:"+json.dumps(COMM, indent=4)
-    logging.info(MESSAGE)
+    logging.debug(MESSAGE)
 
     # ------------ Loop over interfaces, gathering data -------------------------
     MonInterfaces = []
@@ -147,36 +143,50 @@ def snmp_get_data(INDICES,COMM):
 # Get new start info for Out
             OutStartTime[KEY] = OutEndTime[KEY]
             ifOutCntrStart[KEY] = ifOutCntrEnd[KEY]
-    print("{}, {}".format(InBytesPerSec,OutBytesPerSec))    
+
     if InBytesPerSec != 0 or OutBytesPerSec != 0:
         # Need time in ISO 8601 format for UTC
         LastTime_us = datetime.now(timezone.utc).isoformat()
         output = {
-            "Description": "Network statistics for {}".format(site_snmp_config['site']),
+            "Description": "Network statistics for {}".format(site_config['site']),
             "UpdatedLast": LastTime_us,
             "InBytesPerSec": InBytesPerSec,
             "OutBytesPerSec": OutBytesPerSec,
-            "UpdateInterval": str(INTERVAL) + " seconds",
+            "UpdateInterval": str(time_diff.total_seconds()) + " seconds",
             "MonitoredInterfaces": MonInterfaces,
         }
         logging.debug(json.dumps(output))
-        return json.dumps(output)
+        return output
 #----------------------------------
 # HTTP server section             
 #----------------------------------
 class WebRequestHandler(BaseHTTPRequestHandler):
     # ...
+        
     def do_GET(self):
         self.send_response(200)
         self.send_header("Content-Type", "application/json")
         self.end_headers()
-        snmp_output=snmp_get_data(INDICES=site_snmp_config['indices'],COMM=site_snmp_config['comm'])
-        self.wfile.write(json.dumps(snmp_output).encode('utf-8')) # Read the file and send the contents 
+        snmp_output=snmp_get_data(INDICES=site_config['indices'],COMM=site_config['comm'])
+        self.wfile.write(json.dumps(snmp_output,indent=4).encode('utf-8')) # Read the snmp output and send the contents
+        self.wfile.write('\n'.encode('utf-8'))
+
 #----------------------------------
 # Main server section             
 #----------------------------------
 
+import socket
+ip=socket.gethostbyname('se25.tier2.hep.manchester.ac.uk')
+print(ip)
 if __name__ == "__main__":
 
-    server = HTTPServer(("0.0.0.0", 8000), WebRequestHandler)
+
+    server = HTTPServer(("0.0.0.0", 7443), WebRequestHandler)
+    MESSAGE="Using key: {} and cert: {}".format(site_config['https_key'],site_config['https_cert'])
+    logging.debug(MESSAGE)
+    server.socket = ssl.wrap_socket (server.socket, 
+        keyfile=site_config['https_key'], 
+        certfile=site_config['https_cert'],
+        server_side=True,
+        ssl_version=ssl.PROTOCOL_TLS)
     server.serve_forever()

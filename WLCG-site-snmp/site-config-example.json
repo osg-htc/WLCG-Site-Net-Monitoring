@@ -1,5 +1,7 @@
 {
     "site": "<RC site name>",
+    "https_key": "<path-to-host-key>",
+    "https_cert": "<path-to-host-cert>",
     "comm": {
         "<switch-name-or-ip-1>": "<comunity-1>",
 	"<switch-name-or-ip-2>": "<comunity-2>"
