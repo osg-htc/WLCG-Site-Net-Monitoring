@@ -1,3 +1,14 @@
+# Table of Contents 
+
+1. [Site Traffic Monitoring Service README](#site-traffic-monitoring-service-readme)
+2. [Installation Considerations](#installation-considerations)
+3. [Install Pre-Requisite](#install-pre-requisites)
+4. [Installing](#installing)
+5. [Configuring](#configuring)
+6. [Implementing as a systemd service](#implementing-as-a-systemd-service)
+7. [snmp script with an https server](#snmp-script-with-an-https-server)
+8. [Register in CRIC](#register-in-cric)
+
 # Site Traffic Monitoring Service README
 
 This directory contains the **Site Traffic Monitoring Service** example and is intended to be deployed at WLCG sites to gather simple network statistics from the site’s network border device(s).  It contains a python3 script that can be configured to read multiple interfaces via SNMP, add the IN and OUT traffic (In Bytes/sec) up and save the output in a standard formatted JSON file for use by WLCG Monitoring.  We desire relatively fine-grained monitoring, if possible, and **should have an update interval of 60 seconds**, unless there is a technical reason not to. 
@@ -178,7 +189,7 @@ If you don't have an http server where to copy the snmp json output at hand you 
 - comm: communities to fill with uplink interfaces and communities (i.e. password) for those interfaces
 - indices: interfaces and the aliases they have in your switches/routers
 
-for the last two config attributes follow the instructions above for COMM and INDICES.
+for the last two config attributes follow the instructions for COMM and INDICES in the [Configuration](#configuration) section above.
 
 To start the server manually it's like the script without https server, simply
 
@@ -191,7 +202,7 @@ curl --capath <CA_CERT_DIR> https://<your_host>:<your_port>/
 ```
 The first query after the server starts will be null. But after that it will server the results calculated from the previous query. If you restart the server the first query will be null again.
 
-The script also can make use of systemd and there is a systemd example. To install it follow the instructions above.
+The script also can make use of systemd and there is a systemd example. To install it follow the instructions  in the [Implementing as a systemd service](#implementing-as-a-systemd-service) section above but using the http example in the snmp-with-http-example directory.
 
 *CAVEATS:* This is operationally easier to run than producing a file and copying it to an https server, it can run on a grid storage machine. and is likely more reliable as the numbers are caclulated when requested (i.e. it doesn't go out of sync) but access should be restricted only to CERN machines doing the query.
 
