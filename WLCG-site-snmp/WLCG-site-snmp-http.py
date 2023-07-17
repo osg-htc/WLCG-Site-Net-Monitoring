@@ -175,15 +175,11 @@ class WebRequestHandler(BaseHTTPRequestHandler):
 # Main server section             
 #----------------------------------
 
-import socket
-ip=socket.gethostbyname('se25.tier2.hep.manchester.ac.uk')
-print(ip)
 if __name__ == "__main__":
 
 
     server = HTTPServer(("0.0.0.0", 7443), WebRequestHandler)
-    MESSAGE="Using key: {} and cert: {}".format(site_config['https_key'],site_config['https_cert'])
-    logging.debug(MESSAGE)
+    MESSAGE=f"Using key: {site_config['https_key']} and cert: {site_config['https_cert']}"
     server.socket = ssl.wrap_socket (server.socket, 
         keyfile=site_config['https_key'], 
         certfile=site_config['https_cert'],
