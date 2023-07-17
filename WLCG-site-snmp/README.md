@@ -26,7 +26,7 @@ yum install net-snmp git net-snmp-devel python3-devel gcc
 pip3 install easysnmp
 ```
 
-## Installing 
+## Installing
 
 Then your can get the project and copy the relevant director to `INSTALL_LOC`
 
@@ -166,6 +166,34 @@ sudo systemctl start site-traffic-monitor.service
 
 While this service runs it should create a new `JSONOUTFILE` every `INTERVAL` seconds. NOTE: set INTERVAL at 60 seconds unless technical issues preclude this.  
 If the location of `JSONOUTFILE` is NOT accessible via a web URL, you will need to have some mechanism to move it to a web accessible location.
+
+## snmp script with an https server
+
+If you don't have an http server where to copy the snmp json output at hand you can use the script in snmp-with-http-example. This will do the same as the main example, only will start also an http server that will produce the snmp json output when queried. It has 3 options to define the INSTALL_LOC, to define the config path (default ./), and to change the debug level. All the rest can be configured in a json configuration file which contains the following information:
+
+- site name: your RC site name
+- host_cert: location of your host pem certificate to use to start https (use a certificate that can be generally recognised, or you can run this on a standard grid machine)
+- host_key: location of your host pem key to use to start https
+- host_port: the port you prefer to start the https server on. (do NOT add quotes)
+- comm: communities to fill with uplink interfaces and communities (i.e. password) for those interfaces
+- indices: interfaces and the aliases they have in your switches/routers
+
+for the last two config attributes follow the instructions above for COMM and INDICES.
+
+To start the server manually it's like the script without https server, simply
+
+```
+python3 WLCG-site-snmp-http.py
+```
+then to test it go to another machine and run this curl command
+```
+curl --capath <CA_CERT_DIR> https://<your_host>:<your_port>/
+```
+The first query after the server starts will be null. But after that it will server the results calculated from the previous query. If you restart the server the first query will be null again.
+
+The script also can make use of systemd and there is a systemd example. To install it follow the instructions above.
+
+*CAVEATS:* This is operationally easier to run than producing a file and copying it to an https server, it can run on a grid storage machine. and is likely more reliable as the numbers are caclulated when requested (i.e. it doesn't go out of sync) but access should be restricted only to CERN machines doing the query.
 
 ## Register in CRIC
 

@@ -178,7 +178,7 @@ class WebRequestHandler(BaseHTTPRequestHandler):
 if __name__ == "__main__":
 
 
-    server = HTTPServer(("0.0.0.0", 7443), WebRequestHandler)
+    server = HTTPServer(("0.0.0.0", site_config['https_port']), WebRequestHandler)
     MESSAGE=f"Using key: {site_config['https_key']} and cert: {site_config['https_cert']}"
     server.socket = ssl.wrap_socket (server.socket, 
         keyfile=site_config['https_key'], 
