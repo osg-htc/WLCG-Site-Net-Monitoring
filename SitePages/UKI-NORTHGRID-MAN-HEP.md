@@ -52,7 +52,7 @@ We are working to find an appropriate place
 
 ### Network Monitoring Link Into CRIC [Mandatory]
 
-We are working to find an appropriate place
+https://wlcg-cric.cern.ch/core/netsite/detail/UKI-NORTHGRID-MAN-HEP/
 
 ## Network Diagrams [Optional]
 
