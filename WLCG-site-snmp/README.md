@@ -186,6 +186,7 @@ If you don't have an http server where to copy the snmp json output at hand you 
 - host_cert: location of your host pem certificate to use to start https (use a certificate that can be generally recognised, or you can run this on a standard grid machine)
 - host_key: location of your host pem key to use to start https
 - host_port: the port you prefer to start the https server on. (do NOT add quotes)
+- interval: minimum interval between one snmp request and the other (default 60s) if the elapsed time is less than interval the previous json values will be returned
 - comm: communities to fill with uplink interfaces and communities (i.e. password) for those interfaces
 - indices: interfaces and the aliases they have in your switches/routers
 
@@ -204,7 +205,7 @@ The first query after the server starts will be null. But after that it will ser
 
 The script also can make use of systemd and there is a systemd example. To install it follow the instructions  in the [Implementing as a systemd service](#implementing-as-a-systemd-service) section above but using the http example in the snmp-with-http-example directory.
 
-*CAVEATS:* This is operationally easier to run than producing a file and copying it to an https server, it can run on a grid storage machine. and is likely more reliable as the numbers are caclulated when requested (i.e. it doesn't go out of sync) but access should be restricted only to CERN machines doing the query.
+*CAVEATS:* This is operationally easier to run than producing a file and copying it to an https server, it can run on a machine with certificates (grid storage or perfsonar) and is likely more reliable as the numbers are caclulated when requested (i.e. it doesn't go out of sync) and access can be restricted only to CERN machines doing the query. easysnmp doesn't easily install on CetnOS7 so you need at least an EL8 machine and python 3.6.8.
 
 ## Register in CRIC
 

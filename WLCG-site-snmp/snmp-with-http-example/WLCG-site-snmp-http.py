@@ -54,7 +54,7 @@ args, unknown = arg_parser.parse_known_args()
 #                      Index               Interface description
 
 # Set up logging and specify level as logging.<LEVEL> with <LEVEL>=DEBUG,INFO,WARN,ERROR...
-logging.basicConfig(stream=sys.stderr, level=args.debug_level)
+logging.basicConfig(format='%(asctime)s - %(message)s',stream=sys.stderr, level=args.debug_level)
 
                         
 # ---------------------------------------------------------------------------
@@ -68,7 +68,7 @@ logging.info(MESSAGE)
 
 # Define the set of switches and ports that represent the site "border"
 #   You will need to find the correct SNMP indices to use.  See info above
-site_config=json.load(open("{}/{}".format(INSTALL_LOC,args.config_file)))
+site_config=json.load(open(f"{INSTALL_LOC}/{args.config_file}"))
 
 # ------------ Define the needed 64-bit OIDs for In/Out Octets --------------
 ifHCInOctets = ".1.3.6.1.2.1.31.1.1.1.6"
@@ -89,8 +89,10 @@ OutEndTime = {}
 ifOutCntrStart = {}
 ifOutCntrEnd = {}
 
+CurrentOutput={}
+
 # Sleep interval between loop executions (in seconds)
-INTERVAL = 60
+INTERVAL = site_config['interval']
 
 # Announce service start up
 MESSAGE=" WLCG site traffic monitor started at " + datetime.now(timezone.utc).isoformat()
@@ -98,7 +100,8 @@ print(MESSAGE)
 MESSAGE="  -------  traffic monitor directory " + INSTALL_LOC
 print(MESSAGE)
 
-def snmp_get_data(INDICES,COMM):
+def snmpGetData(INDICES,COMM):
+
     MESSAGE="INDICES:"+json.dumps(INDICES, indent=4)
     logging.debug(MESSAGE)
     MESSAGE="COMM:"+json.dumps(COMM, indent=4)
@@ -108,55 +111,63 @@ def snmp_get_data(INDICES,COMM):
     MonInterfaces = []
     InBytesPerSec = 0
     OutBytesPerSec = 0
-    # Loop over all devices and interfaces, adding up Octets
-    for host, interface in INDICES.items():
-        MESSAGE=" host: " + host + " comm: " + COMM[host]
-        logging.debug(MESSAGE)
-        session = Session(hostname=host, community=COMM[host], version=2)
-        # ----------- Gather In/Out Octets and Associated time ----------------------
-        for desc in interface:
-            MESSAGE=" Interface: " + desc + " index: ", interface[desc]
-            logging.debug(MESSAGE)
-            KEY = host + "_" + desc
-            MonInterfaces.append(KEY)
-# Get end info for IN
-            ifInCntrEnd[KEY] = int(session.get((ifHCInOctets, interface[desc])).value)
-            InEndTime[KEY] = datetime.now().isoformat()
-            MESSAGE=" Key:" + KEY + "In End Counter:" + str(ifInCntrEnd[KEY]) + " End Time:" + InEndTime[KEY]
-            logging.debug(MESSAGE)
-            if InStartTime.get(KEY) is not None:
-                # ------------------------ Calculate rate and swap variables
-                time_diff = datetime.strptime(InEndTime[KEY],'%Y-%m-%dT%H:%M:%S.%f')-datetime.strptime(InStartTime[KEY],'%Y-%m-%dT%H:%M:%S.%f')
-                Rate = (ifInCntrEnd[KEY] - ifInCntrStart[KEY]) / time_diff.total_seconds()
-                InBytesPerSec = InBytesPerSec + Rate
-# Get new start info for In
-            InStartTime[KEY] = InEndTime[KEY]
-            ifInCntrStart[KEY] = ifInCntrEnd[KEY]
-# Get end info for Out 
-            ifOutCntrEnd[KEY] = int(session.get((ifHCOutOctets, interface[desc])).value)
-            OutEndTime[KEY] = datetime.now().isoformat()
-            # ------------------------ Calculate rate and swap variables
-            if OutStartTime.get(KEY) is not None:
-                time_diff = datetime.strptime(OutEndTime[KEY],'%Y-%m-%dT%H:%M:%S.%f')-datetime.strptime(OutStartTime[KEY],'%Y-%m-%dT%H:%M:%S.%f')
-                Rate = (ifOutCntrEnd[KEY] - ifOutCntrStart[KEY]) / time_diff.total_seconds()
-                OutBytesPerSec = OutBytesPerSec + Rate
-# Get new start info for Out
-            OutStartTime[KEY] = OutEndTime[KEY]
-            ifOutCntrStart[KEY] = ifOutCntrEnd[KEY]
+    LastTime_us = datetime.utcnow().isoformat()
+    global CurrentOutput
 
-    if InBytesPerSec != 0 or OutBytesPerSec != 0:
-        # Need time in ISO 8601 format for UTC
-        LastTime_us = datetime.now(timezone.utc).isoformat()
-        output = {
-            "Description": "Network statistics for {}".format(site_config['site']),
-            "UpdatedLast": LastTime_us,
-            "InBytesPerSec": InBytesPerSec,
-            "OutBytesPerSec": OutBytesPerSec,
-            "UpdateInterval": str(time_diff.total_seconds()) + " seconds",
-            "MonitoredInterfaces": MonInterfaces,
-        }
-        logging.debug(json.dumps(output))
-        return output
+    if CurrentOutput and (INTERVAL > (datetime.strptime(LastTime_us,'%Y-%m-%dT%H:%M:%S.%f')-datetime.strptime(CurrentOutput['UpdatedLast'],'%Y-%m-%dT%H:%M:%S.%f')).total_seconds()):
+        logging.debug("CurrentOutput exists and elapsed < INTERVAL --> reuse CurrentOutput")
+    else:
+        logging.debug("CurrentOutput doesn't exist or elapsed > INTERVAL --> calculate a new value for CurrentOutput")
+
+        # Loop over all devices and interfaces, adding up Octets
+        for host, interface in INDICES.items():
+            MESSAGE=" host: " + host + " comm: " + COMM[host]
+            logging.debug(MESSAGE)
+            session = Session(hostname=host, community=COMM[host], version=2)
+            # ----------- Gather In/Out Octets and Associated time ----------------------
+            for desc in interface:
+                MESSAGE=" Interface: " + desc + " index: ", interface[desc]
+                logging.debug(MESSAGE)
+                KEY = host + "_" + desc
+                MonInterfaces.append(KEY)
+    # Get end info for IN
+                ifInCntrEnd[KEY] = int(session.get((ifHCInOctets, interface[desc])).value)
+                InEndTime[KEY] = datetime.now().isoformat()
+                MESSAGE=" Key:" + KEY + "In End Counter:" + str(ifInCntrEnd[KEY]) + " End Time:" + InEndTime[KEY]
+                logging.debug(MESSAGE)
+                if InStartTime.get(KEY) is not None:
+                    # ------------------------ Calculate rate and swap variables
+                    time_diff = datetime.strptime(InEndTime[KEY],'%Y-%m-%dT%H:%M:%S.%f')-datetime.strptime(InStartTime[KEY],'%Y-%m-%dT%H:%M:%S.%f')
+                    Rate = (ifInCntrEnd[KEY] - ifInCntrStart[KEY]) / time_diff.total_seconds()
+                    InBytesPerSec = InBytesPerSec + Rate
+    # Get new start info for In
+                InStartTime[KEY] = InEndTime[KEY]
+                ifInCntrStart[KEY] = ifInCntrEnd[KEY]
+    # Get end info for Out 
+                ifOutCntrEnd[KEY] = int(session.get((ifHCOutOctets, interface[desc])).value)
+                OutEndTime[KEY] = datetime.now().isoformat()
+                # ------------------------ Calculate rate and swap variables
+                if OutStartTime.get(KEY) is not None:
+                    time_diff = datetime.strptime(OutEndTime[KEY],'%Y-%m-%dT%H:%M:%S.%f')-datetime.strptime(OutStartTime[KEY],'%Y-%m-%dT%H:%M:%S.%f')
+                    Rate = (ifOutCntrEnd[KEY] - ifOutCntrStart[KEY]) / time_diff.total_seconds()
+                    OutBytesPerSec = OutBytesPerSec + Rate
+    # Get new start info for Out
+                OutStartTime[KEY] = OutEndTime[KEY]
+                ifOutCntrStart[KEY] = ifOutCntrEnd[KEY]
+
+        if InBytesPerSec != 0 or OutBytesPerSec != 0:
+            # Need time in ISO 8601 format for UTC
+            output = {
+                "Description": f"Network statistics for {site_config['site']}",
+                "UpdatedLast": LastTime_us,
+                "InBytesPerSec": InBytesPerSec,
+                "OutBytesPerSec": OutBytesPerSec,
+                "UpdateInterval": str(time_diff.total_seconds()) + " seconds",
+                "MonitoredInterfaces": MonInterfaces,
+            }
+            logging.debug(json.dumps(output))
+            CurrentOutput=output
+    return CurrentOutput
 #----------------------------------
 # HTTP server section             
 #----------------------------------
@@ -167,8 +178,8 @@ class WebRequestHandler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header("Content-Type", "application/json")
         self.end_headers()
-        snmp_output=snmp_get_data(INDICES=site_config['indices'],COMM=site_config['comm'])
-        self.wfile.write(json.dumps(snmp_output,indent=4).encode('utf-8')) # Read the snmp output and send the contents
+        snmpOutput=snmpGetData(INDICES=site_config['indices'],COMM=site_config['comm'])
+        self.wfile.write(json.dumps(snmpOutput,indent=4).encode('utf-8')) # Read the snmp output and send the contents
         self.wfile.write('\n'.encode('utf-8'))
 
 #----------------------------------
@@ -184,5 +195,5 @@ if __name__ == "__main__":
         keyfile=site_config['https_key'], 
         certfile=site_config['https_cert'],
         server_side=True,
-        ssl_version=ssl.PROTOCOL_TLS)
+        ssl_version=ssl.PROTOCOL_TLS_SERVER)
     server.serve_forever()
