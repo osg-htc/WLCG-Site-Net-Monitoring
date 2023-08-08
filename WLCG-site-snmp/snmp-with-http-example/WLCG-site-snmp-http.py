@@ -116,6 +116,7 @@ def snmpGetData(INDICES,COMM):
     global CurrentOutput
 
     if CurrentOutput and (INTERVAL > (datetime.strptime(LastTime_us,'%Y-%m-%dT%H:%M:%S.%f')-datetime.strptime(CurrentOutput['UpdatedLast'],'%Y-%m-%dT%H:%M:%S.%f')).total_seconds()):
+        CurrentOutput['UpdateInterval'] = (datetime.strptime(LastTime_us,'%Y-%m-%dT%H:%M:%S.%f')-datetime.strptime(CurrentOutput['UpdatedLast'],'%Y-%m-%dT%H:%M:%S.%f')).total_seconds()
         logging.debug("CurrentOutput exists and elapsed < INTERVAL --> reuse CurrentOutput")
     else:
         logging.debug("CurrentOutput doesn't exist or elapsed > INTERVAL --> calculate a new value for CurrentOutput")
