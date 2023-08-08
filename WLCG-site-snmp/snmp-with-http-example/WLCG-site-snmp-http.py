@@ -28,10 +28,11 @@ arg_parser.add_argument('--site-config',
                         dest='config_file',
                         default='site-config.json',
                         help='Site snmp config file name. Default config_file.')
+# PWD is not set if you start this as a systemd service
 arg_parser.add_argument('--install_location',
                         dest='install_loc',
-                        default=os.environ['PWD'],
-                        help='Install Location. Default: PWD')
+                        default='./',
+                        help='Install Location. Default: ./')
 arg_parser.add_argument('--debug_level',
                         dest='debug_level',
                         default='WARN',
@@ -91,8 +92,8 @@ ifOutCntrEnd = {}
 
 CurrentOutput={}
 
-# Sleep interval between loop executions (in seconds)
-INTERVAL = site_config['interval']
+# Sleep interval between loop executions (in seconds) default 60
+INTERVAL = site_config['poll_interval']
 
 # Announce service start up
 MESSAGE=" WLCG site traffic monitor started at " + datetime.now(timezone.utc).isoformat()
@@ -188,12 +189,16 @@ class WebRequestHandler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
 
+    server = HTTPServer(("0.0.0.0",80), WebRequestHandler)
 
-    server = HTTPServer(("0.0.0.0", site_config['https_port']), WebRequestHandler)
-    MESSAGE=f"Using key: {site_config['https_key']} and cert: {site_config['https_cert']}"
-    server.socket = ssl.wrap_socket (server.socket, 
-        keyfile=site_config['https_key'], 
-        certfile=site_config['https_cert'],
-        server_side=True,
-        ssl_version=ssl.PROTOCOL_TLS_SERVER)
+    if site_config['https']['use'] == True:
+        server = HTTPServer(("0.0.0.0", site_config['https']['https_port']), WebRequestHandler)
+        MESSAGE=f"Using https on port {site_config['https']['https_port']} with x509 key: {site_config['https']['https_key']} and cert: {site_config['https']['https_cert']}"
+        logging.debug(MESSAGE)
+        server.socket = ssl.wrap_socket (server.socket, 
+            keyfile=site_config['https']['https_key'], 
+            certfile=site_config['https']['https_cert'],
+            server_side=True,
+            ssl_version=ssl.PROTOCOL_TLS_SERVER)
+
     server.serve_forever()
