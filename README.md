@@ -30,6 +30,8 @@ Each NetSite has a Monitoring URL that should be used to point to network monito
 
 In addition, each NetworkRoute (see https://wlcg-cric.cern.ch/core/networkroute/list/), composed of one or more network subnets *also* provides an opportunity to have a Monitoring URL.  This should be used to provide monitoring specifically for the identified network routes, if it exists.
 
+Once monitoring is in place and published in CRIC, sites can check their results via https://monit-grafana-open.cern.ch/d/MwuxgogIk/wlcg-site-network?orgId=16&from=now-7d&to=now&var-site=All 
+
 ## CRIC
 
 If a site doesn't have a NetSite in CRIC (see https://wlcg-cric.cern.ch/core/netsite/list/) they should create one. The starting point is the main RC site in CRIC https://wlcg-cric.cern.ch/core/rcsite/list/
