@@ -36,6 +36,7 @@ You should also make sure you have installed any dependencies if needed:
 yum install net-snmp git net-snmp-devel python3-devel gcc
 pip3 install easysnmp
 ```
+<span style="color:red">**Note:**</span> there is a problem installing easysnmp via pip3 as of September 5, 2023.  We are working on a solution. 
 
 ## Installing
 
