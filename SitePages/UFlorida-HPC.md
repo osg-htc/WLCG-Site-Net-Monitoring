@@ -58,7 +58,7 @@ No firewalls or security devices planned.
 UFlorida-HPC uses Brocade SX1024 WAN switch stack uplinked to the campus Brocade MLXe 16 switch. 
 
 ## Network Monitoring [Mandatory]
-http://cmsio9.rc.ufl.edu:2811/cmsio-netmon.json
+https://cmsweb.rc.ufl.edu/pub/cms/cmsio-netmon.json
 
 ### Network Monitoring Link Into CRIC [Mandatory]
 
