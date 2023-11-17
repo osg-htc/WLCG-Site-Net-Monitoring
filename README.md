@@ -32,6 +32,11 @@ In addition, each NetworkRoute (see https://wlcg-cric.cern.ch/core/networkroute/
 
 Once monitoring is in place and published in CRIC, sites can check their results via https://monit-grafana-open.cern.ch/d/MwuxgogIk/wlcg-site-network?orgId=16&from=now-7d&to=now&var-site=All 
 
+Note the CERN monitoring systems need to be able to read the data.   For those with firewalls, please open the following subnets for access to the Monitoring URL:
+- 137.138.0.0/16
+- 188.184.0.0/15
+- 2001:1458:0D00::/44
+
 ## CRIC
 
 If a site doesn't have a NetSite in CRIC (see https://wlcg-cric.cern.ch/core/netsite/list/) they should create one. The starting point is the main RC site in CRIC https://wlcg-cric.cern.ch/core/rcsite/list/
