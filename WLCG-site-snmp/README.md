@@ -28,6 +28,14 @@ export INSTALL_LOC=~/my-site-monitoring
 mkdir -p ${INSTALL_LOC}
 ```
 
+### Go version
+
+A Go-based version with no external dependencies (other than SystemD for running as a daemon) can be found
+under the `go` directory. The accompanying `README.md` together with the Markdown-formatted manpage shed
+much more light on how to configure and deploy this flavour.
+
+A thing to note is this version is also distributed as a ready-to-install RPM package.
+
 ## Install Pre-Requisites
 
 You should also make sure you have installed any dependencies if needed:
