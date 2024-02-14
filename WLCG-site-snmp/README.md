@@ -36,6 +36,14 @@ much more light on how to configure and deploy this flavour.
 
 A thing to note is this version is also distributed as a ready-to-install RPM package.
 
+### Dockerized Version
+
+Thanks to Justin Balcas / Caltech, we have a dockerized version of the software available at the following links:
+
+Docker templates available here: https://github.com/cmscaltech/docker/blob/master/wlcg-site-mon/
+Docker image available here: https://hub.docker.com/repository/docker/cmscaltech/wlcg-site-mon/general
+CI/CD (Git auto build) is also here: https://github.com/cmscaltech/docker/blob/master/.github/workflows/build-wlcg-site-mon.yml
+
 ## Install Pre-Requisites
 
 You should also make sure you have installed any dependencies if needed:
