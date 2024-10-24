@@ -19,6 +19,8 @@ We have example code in subdirectories in this project:
   - [WLCG-site-snmp](https://gitlab.cern.ch/wlcg-doma/site-network-information/-/blob/master/WLCG-site-snmp/README.md?ref_type=heads):  provides example python code, including a containerized version, for site traffic monitoring.  Sites can use this to gather the appropriate data and produce correctly formatted output.
   - [Elastiflow-Example](https://gitlab.cern.ch/wlcg-doma/site-network-information/-/tree/master/Elastiflow-Example?ref_type=heads): provides python code to read/parse CRIC network data for Elastiflow (note: not needed for most sites)
 
+After the data is available at a URL, the site needs to update their WLCG CRIC entry (see "Site Network Description" below).  That will cause the CERN MONIT system to start gathering the data from the site.
+
 Questions can be directed to the WLCG Monitoring Task Force (wlcgmon-tf 'at' cern.ch)
 
 The following sections provide further details.
