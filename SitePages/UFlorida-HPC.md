@@ -1,11 +1,8 @@
----
-
 # UFlorida-HPC Network Information
-This page describes <br>UFlorida-HPC</br> (aka <br>T2_US_Florida</br> in <br>CMS</br>) network information for WLCG use.
+This page describes <b>UFlorida-HPC</b> (aka <b>T2_US_Florida</b> in <b>CMS</b>) network information for WLCG use.
+<b>UFlorida-HPC</b> is part of NetSites: https://wlcg-cric.cern.ch/core/netsite/list/
 
-<br>UFlorida-HPC</br> is part of NetSites: https://wlcg-cric.cern.ch/core/netsite/list/
-
-LAST UPDATE : 05-October-2023 15:40 Eastern
+LAST UPDATE : 04-October-2023 15:24 Eastern
 
 ## Network Overview
 UFlorida-HPC is a CMS Tier2 site embeded in the University of Florida Research Computing (UFRC). UFRC is connected to the Unversity Campus Research Network to 2 100 Gpbs. Topology is modeled on a fat tree 2- or 3-tiers depending on the equipment attached.
@@ -22,7 +19,6 @@ University of Florida will be increasing its connectivity to FLR to 400G in the 
 All UFlorida-HPC (T2_US_Florida in CMS, a CMS Tier2) equipment at the University of Florida is hosted and maintained by the UFRC in the University Data Center on East Campus which has 100Gbps WAN connection to LHCONE via Florida Lambda Rail(FLR)). Research Computing maintains a pair of Brocade SX1024 WAN switch stack uplinked to the campus Brocade MLXe 16 switch via multiple trunked 40GbE for WAN connections. All Out-facing CMS-related servers such as the CE machiens and the XrootD servers are connected to the SX1024 WAN switches via 10GbE fibers. Internal compute/worker nodes can indirectly access the Internet including LHCONE via a campus NAT server with 40Gbps capacity.
 
 The out-facing CMS-related servers also have 56Gbps FDR Infiniband connections via Mellanox SX6025 switches for local data traffics and 1GbE via a Netgear GS724T switch for slow management/BMC communications. The main storage systems including the dedicated Lustre storage for CMS are connected via 56Gbps FDR Infiniband for data traffic and via various 10GbE/1GbE switches for management/BMC communications. The compute/worker nodes are connected via Mellanox SX6025 56Gbps FDR Infiniband switches for data traffic and via Brocade ICX6650 or Mellanox SX1024 10GbE switches for management/BMC communications.
-
 
 ### Peering Description [Optional]
 *Please describe how your site connects by responding to the following questions.*  
@@ -62,7 +58,7 @@ No firewalls or security devices planned.
 UFlorida-HPC uses Brocade SX1024 WAN switch stack uplinked to the campus Brocade MLXe 16 switch. 
 
 ## Network Monitoring [Mandatory]
-http://cmsio9.rc.ufl.edu/<MISSING>
+http://cmsio9.rc.ufl.edu:2811/cmsio-netmon.json
 
 ### Network Monitoring Link Into CRIC [Mandatory]
 
@@ -70,4 +66,5 @@ For the top level monitoring that provides at least IN/OUT for the site, please 
 
 ## Network Diagrams [Optional]
 
-Please provide a link or links to access your most recent network diagrams.  We plan to host these in sub-directories named as SitePages/Diagrams/UFlorida-HPC.  No diagrams yet.
+Please provide a link or links to access your most recent network diagrams.  We plan to host these in sub-directories named as SitePages/Diagrams/<SITE>
+In this part of the template you can provide descriptions and links to the diagrams.
