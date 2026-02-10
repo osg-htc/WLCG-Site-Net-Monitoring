@@ -11,6 +11,20 @@
                 {"descr": "Ethernet1/31", "snmpIndex": 1234},
                 {"descr": "Ethernet1/32", "snmpIndex": 5678}
             ]
+        },
+        {
+            "hostname": "borderRouterHostname",
+            "hcSupport": true,
+            "snmpVersion": "3",
+            "snmpSecName": "snmpSecName",
+            "snmpAuthProt": "SHA256",
+            "snmpAuthPass": "authPass",
+            "snmpPrivProt": "AES256",
+            "snmpPrivPass": "privPass",
+            "interfaces": [
+                {"descr": "Ethernet1/31", "snmpIndex": 1234},
+                {"descr": "Ethernet1/32", "snmpIndex": 5678}
+            ]
         }
     ],
     "outputs": {
