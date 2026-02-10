@@ -148,8 +148,20 @@ type BorderSwitch struct {
 	// The switch's SNMP implementation's version.
 	SNMPVersion string `json:"snmpVersion"`
 
-	// The parsed SNMP implementation meant for internal program use.
-	SNMPVersionParsed snmp.SnmpVersion
+	// The SNMPv3 Sec Name
+	SNMPSecName string `json:"snmpSecName"`
+
+	// The SNMPv3 authentication algorithm
+	SNMPAuthProt string `json:"snmpAuthProt"`
+
+	// The SNMPv3 authentication passphrase
+	SNMPAuthPass string `json:"snmpAuthPass"`
+
+	// The SNMPv3 privacy algorithm
+	SNMPPrivProt string `json:"snmpPrivProt"`
+
+	// The SNMPv3 privacy passphrase
+	SNMPPrivPass string `json:"snmpPrivPass"`
 
 	// The SNMP community to include on SNMP Get requests.
 	SNMPCommunity string `json:"snmpCommunity"`
@@ -157,13 +169,18 @@ type BorderSwitch struct {
 	// The interfaces to be monitored.
 	Interfaces []Interface `json:"interfaces"`
 
-	// The OIDs to be monitored when gathering input data. These will be
-	// populated by processBorderSwitch.
-	inMonitOIDs []string
+	// The parsed SNMP implementation settings for internal program use
+	SNMPVersionParsed  snmp.SnmpVersion        `json:"-"`
+	SNMPAuthProtParsed snmp.SnmpV3AuthProtocol `json:"-"`
+	SNMPPrivProtParsed snmp.SnmpV3PrivProtocol `json:"-"`
 
 	// The OIDs to be monitored when gathering input data. These will be
 	// populated by processBorderSwitch.
-	outMonitOIDs []string
+	inMonitOIDs []string `json:"-"`
+
+	// The OIDs to be monitored when gathering input data. These will be
+	// populated by processBorderSwitch.
+	outMonitOIDs []string `json:"-"`
 }
 
 // Type Interface defines an interface to monitor.
