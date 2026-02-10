@@ -27,14 +27,28 @@ var snmpVersionMap map[string]snmp.SnmpVersion = map[string]snmp.SnmpVersion{
 	"3":  snmp.Version3,
 }
 
-// parseSNMPVer parses an arbitrary string into a subset of allowable SNMP versions,
-// throwing an error if the provided version cannot be coerced into a suitable one.
-func parseSNMPVer(snmpVer string) (snmp.SnmpVersion, error) {
-	parsedVer, ok := snmpVersionMap[strings.ToLower(snmpVer)]
-	if !ok {
-		return 255, fmt.Errorf("couldn't parse configured SNMP Version: %s", snmpVer)
-	}
-	return parsedVer, nil
+// This map makes it easier to parse the configured SNMPv3 authentication
+// protocol into the internal representation leveraged by gosnmp.
+var snmpAuthProtMap = map[string]snmp.SnmpV3AuthProtocol{
+	// "NoAuth": snmp.NoAuth,
+	"MD5":    snmp.MD5,
+	"SHA":    snmp.SHA,
+	"SHA224": snmp.SHA224,
+	"SHA256": snmp.SHA256,
+	"SHA384": snmp.SHA384,
+	"SHA512": snmp.SHA512,
+}
+
+// This map makes it easier to parse the configured SNMPv3 privacy
+// protocol into the internal representation leveraged by gosnmp.
+var snmpPrivProtMap = map[string]snmp.SnmpV3PrivProtocol{
+	// "NoPriv":  snmp.NoPriv,
+	"DES":     snmp.DES,
+	"AES":     snmp.AES,
+	"AES192":  snmp.AES192,
+	"AES256":  snmp.AES256,
+	"AES192C": snmp.AES192C,
+	"AES256C": snmp.AES256C,
 }
 
 // outputToFile truncates the provided path and then writes the second argument 'as-is'
@@ -105,11 +119,25 @@ func readConf(path string) (Conf, error) {
 // be modified in-place. The slice of monitored interface IDs will be returned, together
 // with any errors caused by the process.
 func processBorderSwitch(bSwitch *BorderSwitch) ([]string, error) {
-	pVer, err := parseSNMPVer(bSwitch.SNMPVersion)
-	if err != nil {
-		return nil, err
+	parsedVer, ok := snmpVersionMap[strings.ToLower(bSwitch.SNMPVersion)]
+	if !ok {
+		return nil, fmt.Errorf("couldn't parse configured SNMP Version: %s", bSwitch.SNMPVersion)
 	}
-	bSwitch.SNMPVersionParsed = pVer
+	bSwitch.SNMPVersionParsed = parsedVer
+
+	if parsedVer == snmp.Version3 {
+		parsedAuthProt, ok := snmpAuthProtMap[strings.ToUpper(bSwitch.SNMPAuthProt)]
+		if !ok {
+			return nil, fmt.Errorf("couldn't parse configured SNMPv3 authentication protocol: %s", bSwitch.SNMPAuthProt)
+		}
+		bSwitch.SNMPAuthProtParsed = parsedAuthProt
+
+		parsedPrivProt, ok := snmpPrivProtMap[strings.ToUpper(bSwitch.SNMPPrivProt)]
+		if !ok {
+			return nil, fmt.Errorf("couldn't parse configured SNMPv3 privacy protocol: %s", bSwitch.SNMPPrivProt)
+		}
+		bSwitch.SNMPPrivProtParsed = parsedPrivProt
+	}
 
 	monIfaces := []string{}
 	for _, iFace := range bSwitch.Interfaces {
@@ -158,22 +186,44 @@ func gatherOctetCounters(BorderSwitches []BorderSwitch) (map[string]ifaceCount, 
 	interfaceCounts := map[string]ifaceCount{}
 
 	for _, borderSwitch := range BorderSwitches {
-		snmpCli := &snmp.GoSNMP{
-			Target:    borderSwitch.HostName,
-			Port:      161,
-			Version:   borderSwitch.SNMPVersionParsed,
-			Community: borderSwitch.SNMPCommunity,
-			Timeout:   time.Duration(2) * time.Second,
+		var snmpCli *snmp.GoSNMP
+		if borderSwitch.SNMPVersionParsed == snmp.Version3 {
+			snmpCli = &snmp.GoSNMP{
+				Target:        borderSwitch.HostName,
+				Port:          161,
+				Version:       borderSwitch.SNMPVersionParsed,
+				Timeout:       time.Duration(5) * time.Second,
+				SecurityModel: snmp.UserSecurityModel,
+				MsgFlags:      snmp.AuthPriv,
+				SecurityParameters: &snmp.UsmSecurityParameters{
+					UserName:                 borderSwitch.SNMPSecName,
+					AuthenticationProtocol:   borderSwitch.SNMPAuthProtParsed,
+					AuthenticationPassphrase: borderSwitch.SNMPAuthPass,
+					PrivacyProtocol:          borderSwitch.SNMPPrivProtParsed,
+					PrivacyPassphrase:        borderSwitch.SNMPPrivPass,
+				},
+			}
+			log.Debugf("crafted snmp client for switch %s: %s, %s, %s\n", snmpCli.Target, snmpCli.Version, snmpCli.MsgFlags, snmpCli.SecurityParameters.Description())
+		} else {
+			snmpCli = &snmp.GoSNMP{
+				Target:    borderSwitch.HostName,
+				Port:      161,
+				Version:   borderSwitch.SNMPVersionParsed,
+				Community: borderSwitch.SNMPCommunity,
+				Timeout:   time.Duration(2) * time.Second,
+			}
+			log.Debugf("crafted snmp client for switch %s: %s, %s\n", snmpCli.Target, snmpCli.Version, snmpCli.Community)
 		}
+
 		if err := snmpCli.Connect(); err != nil {
 			log.Warnf("couldn't connect to router %s: %v. Skipping it...\n", borderSwitch.HostName, err)
 			continue
 		}
-		defer snmpCli.Conn.Close()
 
 		reply, err := snmpCli.Get(borderSwitch.inMonitOIDs)
 		if err != nil {
 			log.Warnf("error getting input statistics for switch %s: %v\n", borderSwitch.HostName, err)
+			snmpCli.Conn.Close()
 			continue
 		}
 
@@ -194,6 +244,7 @@ func gatherOctetCounters(BorderSwitches []BorderSwitch) (map[string]ifaceCount, 
 		reply, err = snmpCli.Get(borderSwitch.outMonitOIDs)
 		if err != nil {
 			log.Warnf("error getting output statistics for switch %s: %v\n", borderSwitch.HostName, err)
+			snmpCli.Conn.Close()
 			continue
 		}
 
@@ -212,6 +263,8 @@ func gatherOctetCounters(BorderSwitches []BorderSwitch) (map[string]ifaceCount, 
 
 			interfaceCounts[fmt.Sprintf("%s-%s", borderSwitch.HostName, getIndexFromOID(snmpPDU.Name))] = currIfaceCount
 		}
+
+		snmpCli.Conn.Close()
 	}
 
 	return interfaceCounts, nil
