@@ -1,0 +1,60 @@
+{
+    "description": "Network statistics for SITE",
+    "interval": 60,
+    "borderSwitches": [
+        {
+            "hostname": "borderRouterHostname",
+            "hcSupport": true,
+            "snmpVersion": "2c",
+            "snmpCommunity": "snmpCommunity",
+            "interfaces": [
+                {"descr": "Ethernet1/31", "snmpIndex": 1234},
+                {"descr": "Ethernet1/32", "snmpIndex": 5678}
+            ]
+        },
+        {
+            "hostname": "borderRouterHostname",
+            "hcSupport": true,
+            "snmpVersion": "3",
+            "snmpSecName": "snmpSecName",
+            "snmpAuthProt": "SHA256",
+            "snmpAuthPass": "authPass",
+            "snmpPrivProt": "AES256",
+            "snmpPrivPass": "privPass",
+            "interfaces": [
+                {"descr": "Ethernet1/31", "snmpIndex": 1234},
+                {"descr": "Ethernet1/32", "snmpIndex": 5678}
+            ]
+        }
+    ],
+    "outputs": {
+        "file": {
+            "enabled": true,
+            "path": "/etc/wlcg-site-snmp/report.json"
+        },
+        "server": {
+            "http": {
+                "enabled": true,
+                "bindAddress": "0.0.0.0",
+                "bindPort": 7777
+            },
+            "https": {
+                "enabled": true,
+                "bindAddress": "0.0.0.0",
+                "bindPort": 7777,
+                "certPath": "/path/to/cert.pem",
+                "keyPath": "/path/to/key.key"
+            }
+        },
+        "scp": {
+            "enabled": true,
+            "user": "userToSSHAs",
+            "hostname": "machineToSSHInto",
+            "port": 22,
+            "privateKeyPath": "/path/to/private/key",
+            "serverPublicKey": "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNo",
+            "remotePath": "/path/to/remote/report",
+            "permissions": "0664"
+        }
+    }
+}

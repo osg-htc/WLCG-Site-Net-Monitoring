@@ -1,0 +1,11 @@
+[Unit]
+Description=WLCG Site Traffic Monitoring Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/wlcg-site-snmp --conf /etc/wlcg-site-snmp/conf.json
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -170,7 +170,8 @@ while True:
         # Need time in ISO 8601 format for UTC
         LastTime_us = datetime.now(timezone.utc).isoformat()
         output = {
-            "Description": "Network statistics for AGLT2",
+            # Replace SITE with your site name, e.g., AGLT2
+            "Description": "Network statistics for SITE",
             "UpdatedLast": LastTime_us,
             "InBytesPerSec": InBytesPerSec,
             "OutBytesPerSec": OutBytesPerSec,

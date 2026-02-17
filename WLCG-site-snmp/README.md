@@ -28,14 +28,31 @@ export INSTALL_LOC=~/my-site-monitoring
 mkdir -p ${INSTALL_LOC}
 ```
 
+### Go version
+
+A Go-based version with no external dependencies (other than SystemD for running as a daemon) can be found
+under the `go` directory. The accompanying `README.md` together with the Markdown-formatted manpage shed
+much more light on how to configure and deploy this flavour.
+
+A thing to note is this version is also distributed as a ready-to-install RPM package.
+
+### Dockerized Version
+
+Thanks to Justin Balcas / Caltech, we have a dockerized version of the software available at the following links:
+
+Docker templates available here: https://github.com/cmscaltech/docker/blob/master/wlcg-site-mon/
+Docker image available here: https://hub.docker.com/repository/docker/cmscaltech/wlcg-site-mon/general
+CI/CD (Git auto build) is also here: https://github.com/cmscaltech/docker/blob/master/.github/workflows/build-wlcg-site-mon.yml
+
 ## Install Pre-Requisites
 
 You should also make sure you have installed any dependencies if needed:
 
 ```
 yum install net-snmp git net-snmp-devel python3-devel gcc
-pip3 install easysnmp
+pip3 install easysnmp==0.2.5
 ```
+<span style="color:red">**Note:**</span> there is a problem installing easysnmp  0.2.6 via pip3 as of September 5, 2023.  We are working on a solution.  For now, the workaround is to force the use of the previous version as above '==0.2.5' during the pip3 install.
 
 ## Installing
 
