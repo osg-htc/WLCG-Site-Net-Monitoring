@@ -116,7 +116,7 @@ def snmpGetData(INDICES,COMM):
     global CurrentOutput
 
     if CurrentOutput and (INTERVAL > (datetime.strptime(LastTime_us,'%Y-%m-%dT%H:%M:%S.%f')-datetime.strptime(CurrentOutput['UpdatedLast'],'%Y-%m-%dT%H:%M:%S.%f')).total_seconds()):
-        CurrentOutput['UpdateInterval'] = (datetime.strptime(LastTime_us,'%Y-%m-%dT%H:%M:%S.%f')-datetime.strptime(CurrentOutput['UpdatedLast'],'%Y-%m-%dT%H:%M:%S.%f')).total_seconds()
+        CurrentOutput['UpdateInterval'] = str((datetime.strptime(LastTime_us,'%Y-%m-%dT%H:%M:%S.%f')-datetime.strptime(CurrentOutput['UpdatedLast'],'%Y-%m-%dT%H:%M:%S.%f')).total_seconds())+" seconds"
         logging.debug("CurrentOutput exists and elapsed < INTERVAL --> reuse CurrentOutput")
     else:
         logging.debug("CurrentOutput doesn't exist or elapsed > INTERVAL --> calculate a new value for CurrentOutput")
@@ -190,7 +190,7 @@ class WebRequestHandler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
 
-    server = HTTPServer(("0.0.0.0",80), WebRequestHandler)
+    server = HTTPServer(("0.0.0.0",8080), WebRequestHandler)
 
     if site_config['https']['use'] == True:
         server = HTTPServer(("0.0.0.0", site_config['https']['https_port']), WebRequestHandler)
