@@ -2,7 +2,7 @@
 
 > ⚠️ **Note:** This document is intended as an outreach/email summary for WLCG site administrators. For the full authoritative deployment instructions, see [README.md](./README.md).
 
-The WLCG Monitoring Task Force is conducting a campaign to describe and instrument the network for the largest WLCG sites in advance of the upcoming WLCG Network Data Challenge 2024(DC24).  This document provides a high level view of what site administrators will need to do in response to the campaign.
+The WLCG Monitoring Task Force is conducting a campaign to describe and instrument the network for the largest WLCG sites in advance of the upcoming WLCG Data Challenge 2027 (DC27) and as part of establishing this as standard ongoing monitoring.  This document provides a high level view of what site administrators will need to do in response to the campaign.
 
 ## Summary of Required Tasks
 
@@ -25,7 +25,7 @@ The intent is that sites own the information they provide and will regularly upd
 
 ## Site Traffic Monitoring
 
-The second component for site network information is enabling tracking of the total network traffic IN and OUT of EACH NetSite.   A site's connectivity can vary significantly across WLCG, from single WAN (wide area network) connections to many connections of various bandwidth.   For DC24 we want sides to add up all input and output traffic and publish suitably formatted JSON with those numbers every 60 seconds.
+The second component for site network information is enabling tracking of the total network traffic IN and OUT of EACH NetSite.   A site's connectivity can vary significantly across WLCG, from single WAN (wide area network) connections to many connections of various bandwidth.   For DC27 and ongoing standard monitoring we want sites to add up all input and output traffic and publish suitably formatted JSON with those numbers every 60 seconds.
   - First step is to identify all the network interfaces that connect the site to the wide area network
   - Second step is to programmatically gather the IN and OUT statistics for all interfaces, summing up IN and OUT to get totals.   Example code using Python3 and SNMP are available in https://github.com/osg-htc/WLCG-Site-Net-Monitoring/tree/main/WLCG-site-snmp
   - Third step is publish the statistics in the right JSON format every 60 seconds at an accessible URL for CERN MONIT.    
@@ -36,7 +36,8 @@ Sites should verify that the MONIT dashboard starts showing their data within ab
 ## Additional information
 
 There is additional information on the project GitHub pages (https://github.com/osg-htc/WLCG-Site-Net-Monitoring) as well as previous presentations on this topic:
-  - WLCG Operations presentation https://docs.google.com/presentation/d/1sB4xPJPLoLbNnfV0mfwfXmHXzX8lZ8VtC4TSqDXWUMw/edit?usp=sharing 
+  - WLCG Operations presentation (2025/2026 — link to be added)
   - CHEP 2023 Poster https://docs.google.com/presentation/d/1yzD3Gm6Ph8lAGf3c0WupL3m4L96zT61mASx5dVpBt-Q/edit?usp=sharing
+  - Earlier WLCG Operations presentation (2024) https://docs.google.com/presentation/d/1sB4xPJPLoLbNnfV0mfwfXmHXzX8lZ8VtC4TSqDXWUMw/edit?usp=sharing
 
 Questions can be directed to the WLCG Monitoring Task Force (CERN egroup WLCGMon-TF).
