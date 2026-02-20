@@ -4,6 +4,8 @@ The WLCG is trying to organize and collect site networking details as part of th
 
 The aim is to collect centrally Input/Output traffic and match it with a site network description to help understanding the site external traffic. 
 
+> 📧 **For site administrators:** A concise outreach summary is available in [site-instructions.md](./site-instructions.md) — suitable for email campaigns or quick reference.
+
 # Overview of Steps for Sites
 
 To provide this information, sites should start by mentally drawing a circle around their site.  Any network connections that cross the circle need to be monitored.    The goal is to sum up the IN and OUT traffic crossing the circle.  Sites typically do this by querying the relevant network ports using SNMP.  (NOTE: some sites may already have monitoring that can be "harvested" to provide the needed info and it is up to those sites to use that data to create the needed monitoring information.)
