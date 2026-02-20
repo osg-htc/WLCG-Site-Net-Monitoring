@@ -224,6 +224,25 @@ The script also can make use of systemd and there is a systemd example. To insta
 
 *CAVEATS:* This is operationally easier to run than producing a file and copying it to an https server, it can run on a machine with certificates (grid storage or perfsonar) and is likely more reliable as the numbers are calculated when requested (i.e. it doesn't go out of sync) and access can be restricted only to CERN machines doing the query. easysnmp doesn't easily install on CentOS 7 so you need at least an EL8 machine and python 3.6.8.
 
+### Running snmp-with-http-example in Docker (local Dockerfile)
+
+The `snmp-with-http-example/` directory contains a **`Dockerfile`** that packages the Python 3 SNMP-with-HTTP-server script and its dependencies into a container image. This is a **local** Dockerfile for running the HTTPS monitoring server described above — it is distinct from the external Caltech/cmscaltech Docker image documented in the [Dockerized Version](#dockerized-version) section.
+
+To build and run it locally:
+
+```bash
+cd snmp-with-http-example/
+docker build -t wlcg-site-snmp-http .
+docker run -v /path/to/config:/snmpworkdir/config \
+           -p <host_port>:<host_port> \
+           wlcg-site-snmp-http \
+           python3 WLCG-site-snmp-http.py --config config/
+```
+
+Configure the service by editing `site-config-example.json` (copy it to `config/` and fill in your site-specific values) following the instructions in the [Configuring](#configuring) section above.
+
+> **Note:** For a fully supported, pre-built Docker image, see the [Dockerized Version](#dockerized-version) section above (Caltech/cmscaltech).
+
 ## Register in CRIC
 
 The last thing to do is register the URL for the `JSONOUTFILE` in CRIC.
