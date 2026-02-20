@@ -29,7 +29,9 @@ The following sections provide further details.
 
 ## Site Network description
 
-There are two directories, Templates and SitePages that host, respectively, the site network template and associated guide, and the completed site network information pages, to be served by a central web server.  
+There are two directories, `Template/` and `SitePages/`, that host, respectively, the site network template and the completed site network information pages.
+
+> **Note:** The `Template/` directory (containing `SitePageTemplate.md`) lives in **this GitHub repository**. The completed site pages (`SitePages/`) are hosted on the **CERN GitLab** mirror at <https://gitlab.cern.ch/wlcg-doma/site-network-information/-/tree/master/SitePages>. See [`Template/README.md`](./Template/README.md) for full instructions on how to fill in and submit a site page.
 
 The plan is to use the completed site network template as the CRIC NetSite **Info URL**  (e.g., for AGLT2 as an example see https://wlcg-cric.cern.ch/core/netsite/detail/US-AGLT2%20Michigan%20State%20University/ ).   Sites should clone the example SitePageTemplate.md file, creating a new entry in SitePages named <SITE>.md.  Then they can then edit the md file to provide the information requested.  To allow the file to be accessible in CRIC, the file will need to be converted to HTML, which can be done via `pandoc`.   
 
