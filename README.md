@@ -18,8 +18,8 @@ Once sites have the data, it needs to be made available for the CERN MONIT syste
 ```
 
 We have example code in subdirectories in this project:
-  - [WLCG-site-snmp](https://gitlab.cern.ch/wlcg-doma/site-network-information/-/blob/master/WLCG-site-snmp/README.md?ref_type=heads):  provides example python code, including a containerized version, for site traffic monitoring.  Sites can use this to gather the appropriate data and produce correctly formatted output.
-  - [Elastiflow-Example](https://gitlab.cern.ch/wlcg-doma/site-network-information/-/tree/master/Elastiflow-Example?ref_type=heads): provides python code to read/parse CRIC network data for Elastiflow (note: not needed for most sites)
+  - [WLCG-site-snmp](./WLCG-site-snmp/README.md):  provides example python code, including a containerized version, for site traffic monitoring.  Sites can use this to gather the appropriate data and produce correctly formatted output.
+  - [Elastiflow-Example](./Elastiflow-Example/README.md): provides python code to read/parse CRIC network data for Elastiflow (note: not needed for most sites)
 
 After the data is available at a URL, the site needs to update their WLCG CRIC entry (see "Site Network Description" below).  That will cause the CERN MONIT system to start gathering the data from the site.
 
@@ -47,11 +47,20 @@ Sites can also add a diagram of their network if they want to in the SitePages/D
 
 ## Traffic Monitoring information 
 
-In addition we have two additional directories that host example code that might be useful: WLCG-site-snmp which contains example python code for site traffic monitoring and Elastiflow-Example, which provides python code that can read and parse CRIC network data and produces network annotations usable inside Elastiflow.
+In addition we have two directories with example code: WLCG-site-snmp contains example code for site traffic monitoring. Elastiflow-Example provides python code that can read and parse CRIC network data and produces network annotations usable inside Elastiflow.
 
 Sites also need to determine the best **Monitoring URL**.  
 
-Each NetSite has a Monitoring URL that should be used to point to network monitoring that shows IN/OUT traffic for **that** NetSite.  We provide a working example sites can deploy in the WLCG-site-snmp directory.  
+Each NetSite has a Monitoring URL that should be used to point to network monitoring that shows IN/OUT traffic for **that** NetSite.  We provide multiple working examples sites can deploy in the WLCG-site-snmp directory:
+
+| Deployment Method | Best When... | Directory |
+|---|---|---|
+| **Go binary / RPM** ⭐ _Recommended_ | No Python env; want a compiled tool, systemd service, and RPM packaging | [`WLCG-site-snmp/go/`](./WLCG-site-snmp/go/README.md) |
+| **Python (SNMP only)** | Python already available; simple SNMP-to-file output | [`WLCG-site-snmp/`](./WLCG-site-snmp/README.md) |
+| **Python + HTTPS server** | Python available; no separate web server | [`WLCG-site-snmp/snmp-with-http-example/`](./WLCG-site-snmp/snmp-with-http-example/) |
+| **Docker** | Container-native environment | [`WLCG-site-snmp/snmp-with-http-example/`](./WLCG-site-snmp/snmp-with-http-example/) |
+
+The recommended deployment method is the **Go binary / RPM** ([`WLCG-site-snmp/go/README.md`](./WLCG-site-snmp/go/README.md)), which ships as an RPM, requires no Python environment, and is managed via systemd.  Full configuration details are documented in the [manpage source](./WLCG-site-snmp/go/wlcg-site-snmp.1.md).
 
 In addition, each NetworkRoute (see https://wlcg-cric.cern.ch/core/networkroute/list/), composed of one or more network subnets *also* provides an opportunity to have a Monitoring URL.  This should be used to provide monitoring specifically for the identified network routes, if it exists.
 

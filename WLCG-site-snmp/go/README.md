@@ -1,7 +1,7 @@
 # WLCG SNMP-based Site Network Monitoring
 This repository contains a Go reimplementation of the original Python script developed
 by Alessandra Forti, Shawn Mc Kee et al. on
-[gitlab.cern.ch/site-network-information](https://gitlab.cern.ch/wlcg-doma/site-network-information).
+[github.com/osg-htc/WLCG-Site-Net-Monitoring](https://github.com/osg-htc/WLCG-Site-Net-Monitoring).
 
 First things first, the existing implementation was instrumental to writing this new version.
 Thanks a ton for all the guidance!
@@ -15,7 +15,7 @@ also provide a RPM package whose definition can be found on `wlcg-site-snmp.spec
 
 ## Installation
 Given we provide a RPM package, you can just download it from the repository's
-[releases](https://gitlab.cern.ch/pcollado/wlcg-site-snmp-go) and install it with:
+[releases](https://github.com/osg-htc/WLCG-Site-Net-Monitoring/releases) and install it with:
 
     $ rpm -i wlcg-site-snmp-1.0.0-1.x86_64.rpm
 
