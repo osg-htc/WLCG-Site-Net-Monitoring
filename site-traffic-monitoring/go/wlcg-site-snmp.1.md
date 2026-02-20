@@ -32,7 +32,7 @@ remotely.
 This is intended to be a long-running service. That is why it can be managed through SystemD by
 interacting with the `wlcg-site-snmp` unit through `systemctl(1)`.
 
-The implementation can be found on https://gitlab.cern.ch/wlcg-doma/site-network-information/-/tree/master/WLCG-site-snmp/go.
+The implementation can be found on https://github.com/osg-htc/WLCG-Site-Net-Monitoring/tree/master/site-traffic-monitoring/go.
 
 # OPTIONS
 `-h, --help`
