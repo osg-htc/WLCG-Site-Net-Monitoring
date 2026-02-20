@@ -50,13 +50,13 @@ You should also make sure you have installed any dependencies if needed:
 
 ```
 yum install net-snmp git net-snmp-devel python3-devel gcc
-pip3 install easysnmp==0.2.5
+pip3 install -r requirements.txt
 ```
-<span style="color:red">**Note:**</span> there is a problem installing easysnmp  0.2.6 via pip3 as of September 5, 2023.  We are working on a solution.  For now, the workaround is to force the use of the previous version as above '==0.2.5' during the pip3 install.
+<span style="color:red">**Note:**</span> There was a known problem installing `easysnmp 0.2.6` via pip3 (reported September 2023). `easysnmp 0.2.5` remains the recommended version; it is pinned in `requirements.txt`. See the [upstream easysnmp repository](https://github.com/kamakazikamikaze/easysnmp) for the latest status on 0.2.6.
 
 ## Installing
 
-Then your can get the project and copy the relevant director to `INSTALL_LOC`
+Then you can get the project and copy the relevant directory to `INSTALL_LOC`
 
 ```
 cd /tmp  
@@ -64,7 +64,7 @@ git clone https://gitlab.cern.ch/wlcg-doma/site-network-information.git
 cp -ar site-network-information/WLCG-site-snmp/* ${INSTALL_LOC}/
 ```
 
-After getting the starting files in place in `INSTALL_LOC`, your should make some working copies of the relevant files:
+After getting the starting files in place in `INSTALL_LOC`, you should make some working copies of the relevant files:
 
 ```
 cd ${INSTALL_LOC}
@@ -84,7 +84,7 @@ You will need to edit WLCG-site-snmp.py to customize for your use-case.   The va
 ## Configuring
 
 To configure your installation, you will need to identify the network interfaces that represent your site’s border.   There may be more than one interface and more than one device hosting border interfaces.   You will likely need to work with your network team to ensure you correctly identify the appropriate interface(s) and get readonly access via SNMP. 
-The next step is to confirm that snmp is working for accessing your devices.  Once your have the SNMP community to use, set it as an environment variable:
+The next step is to confirm that snmp is working for accessing your devices.  Once you have the SNMP community to use, set it as an environment variable:
 
 ```
 export SNMPCOMM=myreadonlycomm
@@ -181,7 +181,7 @@ The only change needed is edit that file and replace `<INSTALL_LOC>` with the ac
 Then you can copy this file (as 'root') to /etc/systemd/system/site-traffic-monitor.service
 
 ```
-sudo cp ${INSTALL_LOC}/site-traffic-monitor.service /etc/systemd/system/site-traffic-monitor.service'
+sudo cp ${INSTALL_LOC}/site-traffic-monitor.service /etc/systemd/system/site-traffic-monitor.service
 ```
 
 You then need to reload systemd, enable the new service and start it
@@ -207,7 +207,7 @@ If you don't have an http server where to copy the snmp json output at hand you 
 - comm: communities to fill with uplink interfaces and communities (i.e. password) for those interfaces
 - indices: interfaces and the aliases they have in your switches/routers
 
-for the last two config attributes follow the instructions for COMM and INDICES in the [Configuration](#configuration) section above.
+for the last two config attributes follow the instructions for COMM and INDICES in the [Configuring](#configuring) section above.
 
 To start the server manually it's like the script without https server, simply
 
@@ -222,7 +222,7 @@ The first query after the server starts will be null. But after that it will ser
 
 The script also can make use of systemd and there is a systemd example. To install it follow the instructions  in the [Implementing as a systemd service](#implementing-as-a-systemd-service) section above but using the http example in the snmp-with-http-example directory.
 
-*CAVEATS:* This is operationally easier to run than producing a file and copying it to an https server, it can run on a machine with certificates (grid storage or perfsonar) and is likely more reliable as the numbers are caclulated when requested (i.e. it doesn't go out of sync) and access can be restricted only to CERN machines doing the query. easysnmp doesn't easily install on CetnOS7 so you need at least an EL8 machine and python 3.6.8.
+*CAVEATS:* This is operationally easier to run than producing a file and copying it to an https server, it can run on a machine with certificates (grid storage or perfsonar) and is likely more reliable as the numbers are calculated when requested (i.e. it doesn't go out of sync) and access can be restricted only to CERN machines doing the query. easysnmp doesn't easily install on CentOS 7 so you need at least an EL8 machine and python 3.6.8.
 
 ## Register in CRIC
 

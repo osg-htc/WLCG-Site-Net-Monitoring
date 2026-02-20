@@ -1,0 +1,4 @@
+# easysnmp 0.2.6 has known installation issues on some systems (reported September 2023).
+# Pin to 0.2.5 until the upstream issue is resolved.
+# See: https://github.com/kamakazikamikaze/easysnmp
+easysnmp==0.2.5
