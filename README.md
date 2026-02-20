@@ -10,7 +10,7 @@ The aim is to collect centrally Input/Output traffic and match it with a site ne
 
 To provide this information, sites should start by mentally drawing a circle around their site.  Any network connections that cross the circle need to be monitored.    The goal is to sum up the IN and OUT traffic crossing the circle.  Sites typically do this by querying the relevant network ports using SNMP.  (NOTE: some sites may already have monitoring that can be "harvested" to provide the needed info and it is up to those sites to use that data to create the needed monitoring information.)
 
-Once sites have the data, it needs to be made available for the CERN MONIT system to consume.   The sites need to provide a URL that publishes the data in JSON format (WLCG-site-snmp folder has details on the required format).  This URL can be protected but the following CERN address space needs access:
+Once sites have the data, it needs to be made available for the CERN MONIT system to consume.   The sites need to provide a URL that publishes the data in JSON format (site-traffic-monitoring folder has details on the required format).  This URL can be protected but the following CERN address space needs access:
 ```
 137.138.0.0/16
 188.184.0.0/15
@@ -18,7 +18,7 @@ Once sites have the data, it needs to be made available for the CERN MONIT syste
 ```
 
 We have example code in subdirectories in this project:
-  - [WLCG-site-snmp](./WLCG-site-snmp/README.md):  provides example python code, including a containerized version, for site traffic monitoring.  Sites can use this to gather the appropriate data and produce correctly formatted output.
+  - [site-traffic-monitoring](./site-traffic-monitoring/README.md):  provides example python and Go code, including a containerized version, for site traffic monitoring.  Sites can use this to gather the appropriate data and produce correctly formatted output.
   - [Elastiflow-Example](./Elastiflow-Example/README.md): provides python code to read/parse CRIC network data for Elastiflow (note: not needed for most sites)
 
 After the data is available at a URL, the site needs to update their WLCG CRIC entry (see "Site Network Description" below).  That will cause the CERN MONIT system to start gathering the data from the site.
@@ -47,20 +47,20 @@ Sites can also add a diagram of their network if they want to in the SitePages/D
 
 ## Traffic Monitoring information 
 
-In addition we have two directories with example code: WLCG-site-snmp contains example code for site traffic monitoring. Elastiflow-Example provides python code that can read and parse CRIC network data and produces network annotations usable inside Elastiflow.
+In addition we have two directories with example code: site-traffic-monitoring contains example code for site traffic monitoring. Elastiflow-Example provides python code that can read and parse CRIC network data and produces network annotations usable inside Elastiflow.
 
 Sites also need to determine the best **Monitoring URL**.  
 
-Each NetSite has a Monitoring URL that should be used to point to network monitoring that shows IN/OUT traffic for **that** NetSite.  We provide multiple working examples sites can deploy in the WLCG-site-snmp directory:
+Each NetSite has a Monitoring URL that should be used to point to network monitoring that shows IN/OUT traffic for **that** NetSite.  We provide multiple working examples sites can deploy in the site-traffic-monitoring directory:
 
 | Deployment Method | Best When... | Directory |
 |---|---|---|
-| **Go binary / RPM** ⭐ _Recommended_ | No Python env; want a compiled tool, systemd service, and RPM packaging | [`WLCG-site-snmp/go/`](./WLCG-site-snmp/go/README.md) |
-| **Python (SNMP only)** | Python already available; simple SNMP-to-file output | [`WLCG-site-snmp/`](./WLCG-site-snmp/README.md) |
-| **Python + HTTPS server** | Python available; no separate web server | [`WLCG-site-snmp/snmp-with-http-example/`](./WLCG-site-snmp/snmp-with-http-example/) |
-| **Docker** | Container-native environment | [`WLCG-site-snmp/snmp-with-http-example/`](./WLCG-site-snmp/snmp-with-http-example/) |
+| **Go binary / RPM** ⭐ _Recommended_ | No Python env; want a compiled tool, systemd service, and RPM packaging | [`site-traffic-monitoring/go/`](./site-traffic-monitoring/go/README.md) |
+| **Python (SNMP only)** | Python already available; simple SNMP-to-file output | [`site-traffic-monitoring/`](./site-traffic-monitoring/README.md) |
+| **Python + HTTPS server** | Python available; no separate web server | [`site-traffic-monitoring/python/snmp-with-http-example/`](./site-traffic-monitoring/python/snmp-with-http-example/) |
+| **Docker** | Container-native environment | [`site-traffic-monitoring/python/snmp-with-http-example/`](./site-traffic-monitoring/python/snmp-with-http-example/) |
 
-The recommended deployment method is the **Go binary / RPM** ([`WLCG-site-snmp/go/README.md`](./WLCG-site-snmp/go/README.md)), which ships as an RPM, requires no Python environment, and is managed via systemd.  Full configuration details are documented in the [manpage source](./WLCG-site-snmp/go/wlcg-site-snmp.1.md).
+The recommended deployment method is the **Go binary / RPM** ([`site-traffic-monitoring/go/README.md`](./site-traffic-monitoring/go/README.md)), which ships as an RPM, requires no Python environment, and is managed via systemd.  Full configuration details are documented in the [manpage source](./site-traffic-monitoring/go/wlcg-site-snmp.1.md).
 
 In addition, each NetworkRoute (see https://wlcg-cric.cern.ch/core/networkroute/list/), composed of one or more network subnets *also* provides an opportunity to have a Monitoring URL.  This should be used to provide monitoring specifically for the identified network routes, if it exists.
 
