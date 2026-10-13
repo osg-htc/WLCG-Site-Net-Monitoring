@@ -9,7 +9,7 @@ to become a site specific document.  Feel free to remove unused or non-relevant 
 
 *Our goal is to understand each site's network and track the sites network use (a minimum of IN/OUT total traffic). We would like to get information in three areas: network description, network monitoring and diagrams.  Once this page is created and updated for a specific site, please add it's URL as WLCG CRIC NetSite Info URL (see list of NetSites at https://wlcg-cric.cern.ch/core/netsite/list/)*
 
-LAST UPDATE (when file is changed, please update): 10-May-2022 09:05 Eastern
+LAST UPDATE (when file is changed, please update): DD-Mon-YYYY HH:MM TZ
 
 _NOTE: this is the template file.  Please see filled out examples in the SitePages directory of this project._
 
@@ -42,26 +42,27 @@ Our site has a mix of Cisco and Dell switches and routers.   We have X Cisco YYY
 ## Network Monitoring [Mandatory]
 
 Sites will need to create a web reachable JSON file that tracks the IN and OUT traffice (In Bytes / second) for their site.
-We have provided example code (in python) that can be turned into a `systemd` service which creates the neccessary file. 
-Please read and deploy the site traffic monitor described in the WLCG-site-snmp directory in this project or provide your own equivalent.
+We provide example code (a Go binary/RPM, plus Python and Docker versions) that runs as a `systemd` service and creates the necessary file.
+Please deploy the site traffic monitor described in the [site-traffic-monitoring](https://github.com/osg-htc/WLCG-Site-Net-Monitoring/tree/master/site-traffic-monitoring) directory of this project, or provide your own equivalent.
 
 The format of the JSON file should look something like this:
-```
+```json
 {
-Description: "Network statistics for AGLT2",
-UpdatedLast: "2022-05-09T18:04:43.395714+00:00",
-InBytesPerSec: 3018122809.4014854,
-OutBytesPerSec: 3736689086.9365864,
-UpdateInterval: "60 seconds",
-MonitoredInterfaces: [
-"aglt2-rtr-1.local_Ethernet1/48",
-"aglt2-rtr-1.local_Ethernet1/51",
-"aglt2-rtr-1.local_Ethernet1/52",
-"aglt2-rtr-2.local_Ethernet1/51",
-"aglt2-rtr-2.local_Ethernet1/52"
-]
+    "Description": "Network statistics for AGLT2",
+    "UpdatedLast": "2022-05-09T18:04:43.395714+00:00",
+    "InBytesPerSec": 3018122809.4014854,
+    "OutBytesPerSec": 3736689086.9365864,
+    "UpdateInterval": "60 seconds",
+    "MonitoredInterfaces": [
+        "aglt2-rtr-1.local_Ethernet1/48",
+        "aglt2-rtr-1.local_Ethernet1/51",
+        "aglt2-rtr-1.local_Ethernet1/52",
+        "aglt2-rtr-2.local_Ethernet1/51",
+        "aglt2-rtr-2.local_Ethernet1/52"
+    ]
 }
 ```
+The full field definitions are in [JSON-FORMAT.md](https://github.com/osg-htc/WLCG-Site-Net-Monitoring/blob/master/JSON-FORMAT.md).
 This file should be updated at some reasonable interval (once per minute or similar).
 
 It is important to have this network monitoring information from your site's **border:** the location where all traffic has to pass to get into or out of your site.

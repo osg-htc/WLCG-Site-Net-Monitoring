@@ -61,9 +61,9 @@ pip3 install -r requirements.txt
 Then you can get the project and copy the relevant directory to `INSTALL_LOC`
 
 ```
-cd /tmp  
-git clone https://gitlab.cern.ch/wlcg-doma/site-network-information.git
-cp -ar site-network-information/WLCG-site-snmp/* ${INSTALL_LOC}/
+cd /tmp
+git clone https://github.com/osg-htc/WLCG-Site-Net-Monitoring.git
+cp -ar WLCG-Site-Net-Monitoring/site-traffic-monitoring/python/* ${INSTALL_LOC}/
 ```
 
 After getting the starting files in place in `INSTALL_LOC`, you should make some working copies of the relevant files:
@@ -149,7 +149,7 @@ Feel free to adjust any of the variables as desired.   Once you have them config
 ```
 # python3 WLCG-site-snmp.py
  WLCG site traffic monitor started at 2022-05-09T14:41:45.955477+00:00
-  -------  traffic monitor directory /root/site-network-information/WLCG-site-snmp/
+  -------  traffic monitor directory /root/my-site-monitoring/
   -------  traffic JSON output /var/www/html/aglt2-netmon.json
 ```
 
@@ -172,6 +172,8 @@ For AGLT2 it looks like:
         ]
 }
 ```
+
+The output must be valid JSON in the format described in [JSON-FORMAT.md](../../JSON-FORMAT.md).
 
 If things look OK we can set it up as a systemd service
 
