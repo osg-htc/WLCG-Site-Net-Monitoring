@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added (DC27 site outreach)
+- "Minimum Required for DC27" table at the top of `README.md` and `site-instructions.md`, separating required, strongly encouraged and optional steps
+- `JSON-FORMAT.md` defining the Monitoring URL JSON document (fields, units, required vs recommended)
+- README section on per-route monitoring (LHCOPN / LHCONE / R&E) via CRIC NetworkRoute Monitoring URLs
+- README troubleshooting checklist for sites not appearing on the dashboard
+
+### Fixed
+- README deployment table still pointed to the old `WLCG-site-snmp/` paths; removed the duplicated second table
+- `site-instructions.md` links used `main` instead of the `master` branch and the old `WLCG-site-snmp/` path
+- Python README install steps cloned from the old GitLab location and copied from `WLCG-site-snmp/`
+- Removed the `-S` flag from the README `pandoc` command (removed in pandoc 2.x)
+- Template JSON example was not valid JSON (unquoted keys)
+- Unified the verification dashboard link on the WLCG Site Network Grafana dashboard
+
 ### Changed
 - README overhaul: added Quick Start checklist, deployment-method comparison table, deduplicated firewall subnet block, updated stale GitLab links
 - Clarified Docker deployment documentation in `WLCG-site-snmp/README.md`
